@@ -3,1096 +3,1324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CarDekho Bazaar - Premium Used Cars India</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Premium Motors - Used Cars Marketplace</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: '#FF6B00',
-                        secondary: '#1A1A2E',
-                        accent: '#16213E',
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'slide-up': 'slideUp 0.5s ease-out',
-                        'fade-in': 'fadeIn 0.5s ease-out',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        slideUp: {
-                            '0%': { transform: 'translateY(20px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        }
-                    }
-                }
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #f59e0b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #10b981;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Header */
+        header {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo i {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .favorites-btn {
+            background: var(--primary);
+            color: white !important;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .favorites-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .favorites-count {
+            background: white;
+            color: var(--primary);
+            padding: 0.1rem 0.5rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-    </script>
-    <style>
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+
+        /* Search & Filter Section */
+        .filter-section {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            border-radius: 24px;
+            margin: 0 auto 3rem;
+            max-width: 1200px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
         }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group {
+            position: relative;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Cars Grid */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            color: var(--secondary);
+        }
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Car Card */
+        .car-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255,255,255,0.3);
+            position: relative;
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        }
+
+        .car-image-container {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .car-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
         .car-card:hover .car-image {
             transform: scale(1.1);
         }
-        .hero-gradient {
-            background: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
-        }
-        .text-gradient {
-            background: linear-gradient(135deg, #FF6B00 0%, #FF8E53 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .scroll-hidden::-webkit-scrollbar {
-            display: none;
-        }
-        .scroll-hidden {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .filter-chip.active {
-            background-color: #FF6B00;
+
+        .car-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--success);
             color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .car-badge.sold {
+            background: #ef4444;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--gray);
+            transition: all 0.3s;
+            z-index: 2;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .favorite-btn.active {
+            color: #ef4444;
+            animation: heartBeat 0.3s;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .car-details {
+            padding: 1.5rem;
+        }
+
+        .car-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .car-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .car-subtitle {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .car-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .car-specs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            padding: 1rem 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            margin: 1rem 0;
+        }
+
+        .spec-item {
+            text-align: center;
+        }
+
+        .spec-item i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+
+        .spec-item span {
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .car-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.875rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #128c7e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-details {
+            background: #f1f5f9;
+            color: var(--dark);
+        }
+
+        .btn-details:hover {
+            background: #e2e8f0;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes modalSlide {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .modal-price {
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        .feature-item i {
+            color: var(--success);
+            font-size: 1.2rem;
+        }
+
+        .seller-info {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .seller-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .seller-details h4 {
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .seller-details p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Favorites Sidebar */
+        .favorites-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: white;
+            z-index: 3000;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .favorites-sidebar.active {
+            right: 0;
+        }
+
+        .favorites-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .favorites-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .close-favorites {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .close-favorites:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .favorites-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .favorite-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .favorite-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .favorite-item img {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .favorite-info {
+            flex: 1;
+        }
+
+        .favorite-info h4 {
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+
+        .favorite-info p {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .remove-favorite {
+            background: #fee2e2;
+            color: #ef4444;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .remove-favorite:hover {
+            background: #fecaca;
+        }
+
+        .favorites-empty {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+        }
+
+        .favorites-empty i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 4000;
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast i {
+            color: var(--success);
+            font-size: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .cars-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .favorites-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 4rem;
+            color: white;
+            grid-column: 1 / -1;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
         }
     </style>
 </head>
-<body class="bg-gray-50 font-sans overflow-x-hidden">
+<body>
+    <div class="bg-animation"></div>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-300" id="navbar">
-        <div class="glass-effect bg-secondary/90 backdrop-blur-md">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-20">
-                    <div class="flex items-center space-x-2 cursor-pointer" onclick="window.scrollTo(0,0)">
-                        <i class="fas fa-car-side text-3xl text-primary"></i>
-                        <div>
-                            <h1 class="text-2xl font-bold text-white">CarDekho<span class="text-primary">Bazaar</span></h1>
-                            <p class="text-xs text-gray-400">India's Trusted Used Car Marketplace</p>
-                        </div>
-                    </div>
-                    
-                    <div class="hidden md:flex items-center space-x-8">
-                        <a href="#" class="text-white hover:text-primary transition-colors font-medium">Buy Car</a>
-                        <a href="#" class="text-white hover:text-primary transition-colors font-medium">Sell Car</a>
-                        <a href="#" class="text-white hover:text-primary transition-colors font-medium">Car Loan</a>
-                        <a href="#" class="text-white hover:text-primary transition-colors font-medium">Insurance</a>
-                        <button class="bg-primary hover:bg-orange-600 text-white px-6 py-2 rounded-full font-semibold transition-all transform hover:scale-105">
-                            List Your Car
-                        </button>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <button class="relative p-2 text-white hover:text-primary transition-colors">
-                            <i class="fas fa-heart text-xl"></i>
-                            <span class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center" id="wishlist-count">0</span>
-                        </button>
-                        <button class="relative p-2 text-white hover:text-primary transition-colors">
-                            <i class="fas fa-shopping-cart text-xl"></i>
-                            <span class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center" id="cart-count">0</span>
-                        </button>
-                        <button class="md:hidden text-white text-2xl">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </div>
-                </div>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">
+                <i class="fas fa-car-side"></i>
+                Premium Motors
+            </a>
+            <div class="nav-links">
+                <a href="#inventory">Inventory</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <button class="favorites-btn" onclick="toggleFavorites()">
+                    <i class="fas fa-heart"></i>
+                    Favorites
+                    <span class="favorites-count" id="favCount">0</span>
+                </button>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <!-- Hero Section -->
-    <section class="hero-gradient min-h-screen flex items-center pt-20 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
-            <div class="absolute top-20 left-10 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-xl animate-float"></div>
-            <div class="absolute top-40 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-float" style="animation-delay: 2s"></div>
-            <div class="absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-float" style="animation-delay: 4s"></div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid md:grid-cols-2 gap-12 items-center">
-            <div class="space-y-8 animate-slide-up">
-                <div class="inline-block px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-medium">
-                    <i class="fas fa-shield-alt text-primary mr-2"></i> 100% Verified Cars
-                </div>
-                <h1 class="text-5xl md:text-7xl font-bold text-white leading-tight">
-                    Find Your Perfect <span class="text-gradient">Pre-Loved</span> Car
-                </h1>
-                <p class="text-xl text-gray-300 max-w-lg">
-                    India's most trusted marketplace for certified used cars. 200+ point inspection, 7-day return policy, and best prices guaranteed.
-                </p>
-                
-                <!-- Search Box -->
-                <div class="bg-white rounded-2xl p-4 shadow-2xl max-w-2xl">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div class="relative">
-                            <select class="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:border-primary focus:outline-none appearance-none cursor-pointer">
-                                <option>Select Brand</option>
-                                <option>Maruti Suzuki</option>
-                                <option>Hyundai</option>
-                                <option>Honda</option>
-                                <option>Toyota</option>
-                                <option>Mahindra</option>
-                            </select>
-                            <i class="fas fa-chevron-down absolute right-3 top-3.5 text-gray-400 pointer-events-none"></i>
-                        </div>
-                        <div class="relative">
-                            <select class="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:border-primary focus:outline-none appearance-none cursor-pointer">
-                                <option>Budget</option>
-                                <option>Under 3 Lakh</option>
-                                <option>3-5 Lakh</option>
-                                <option>5-10 Lakh</option>
-                                <option>Above 10 Lakh</option>
-                            </select>
-                            <i class="fas fa-chevron-down absolute right-3 top-3.5 text-gray-400 pointer-events-none"></i>
-                        </div>
-                        <div class="relative">
-                            <select class="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:border-primary focus:outline-none appearance-none cursor-pointer">
-                                <option>City</option>
-                                <option>Delhi NCR</option>
-                                <option>Mumbai</option>
-                                <option>Bangalore</option>
-                                <option>Chennai</option>
-                                <option>Hyderabad</option>
-                            </select>
-                            <i class="fas fa-chevron-down absolute right-3 top-3.5 text-gray-400 pointer-events-none"></i>
-                        </div>
-                        <button onclick="scrollToCars()" class="bg-primary hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2">
-                            <i class="fas fa-search"></i> Search
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-8 text-white/80">
-                    <div class="flex items-center gap-2">
-                        <i class="fas fa-check-circle text-primary"></i>
-                        <span>Certified Cars</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <i class="fas fa-check-circle text-primary"></i>
-                        <span>Easy Finance</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <i class="fas fa-check-circle text-primary"></i>
-                        <span>7-Day Return</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="relative animate-float hidden md:block">
-                <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&auto=format&fit=crop" alt="Premium Car" class="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
-                <div class="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-xl animate-pulse-slow">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-green-100 p-2 rounded-full">
-                            <i class="fas fa-star text-green-600"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-600">Customer Rating</p>
-                            <p class="font-bold text-lg">4.9/5.0</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute -top-6 -right-6 bg-white rounded-xl p-4 shadow-xl animate-pulse-slow" style="animation-delay: 1.5s">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-primary/10 p-2 rounded-full">
-                            <i class="fas fa-users text-primary"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-600">Happy Customers</p>
-                            <p class="font-bold text-lg">50,000+</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="hero">
+        <h1>Find Your Dream Car</h1>
+        <p>Premium used cars with verified history and instant WhatsApp support</p>
     </section>
 
-    <!-- Stats Section -->
-    <section class="py-12 bg-white shadow-lg relative z-20 -mt-8 mx-4 rounded-2xl max-w-6xl lg:mx-auto">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div class="space-y-2">
-                <h3 class="text-3xl font-bold text-secondary counter" data-target="15000">0</h3>
-                <p class="text-gray-600">Cars Listed</p>
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="filter-grid">
+            <div class="filter-group">
+                <label>Brand</label>
+                <select id="brandFilter">
+                    <option value="">All Brands</option>
+                    <option value="bmw">BMW</option>
+                    <option value="mercedes">Mercedes-Benz</option>
+                    <option value="audi">Audi</option>
+                    <option value="toyota">Toyota</option>
+                    <option value="honda">Honda</option>
+                </select>
             </div>
-            <div class="space-y-2">
-                <h3 class="text-3xl font-bold text-secondary counter" data-target="98">0</h3>
-                <p class="text-gray-600">Cities Covered</p>
+            <div class="filter-group">
+                <label>Price Range</label>
+                <select id="priceFilter">
+                    <option value="">Any Price</option>
+                    <option value="0-20000">Under $20,000</option>
+                    <option value="20000-40000">$20,000 - $40,000</option>
+                    <option value="40000-60000">$40,000 - $60,000</option>
+                    <option value="60000+">Above $60,000</option>
+                </select>
             </div>
-            <div class="space-y-2">
-                <h3 class="text-3xl font-bold text-secondary counter" data-target="50000">0</h3>
-                <p class="text-gray-600">Cars Sold</p>
+            <div class="filter-group">
+                <label>Year</label>
+                <select id="yearFilter">
+                    <option value="">Any Year</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                </select>
             </div>
-            <div class="space-y-2">
-                <h3 class="text-3xl font-bold text-secondary counter" data-target="4.8">0</h3>
-                <p class="text-gray-600">Trust Score</p>
+            <div class="filter-group">
+                <label>Body Type</label>
+                <select id="typeFilter">
+                    <option value="">All Types</option>
+                    <option value="sedan">Sedan</option>
+                    <option value="suv">SUV</option>
+                    <option value="coupe">Coupe</option>
+                    <option value="truck">Truck</option>
+                </select>
             </div>
         </div>
+        <button class="search-btn" onclick="filterCars()">
+            <i class="fas fa-search"></i>
+            Search Cars
+        </button>
     </section>
 
-    <!-- Browse by Brand -->
-    <section class="py-20 max-w-7xl mx-auto px-4">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold text-secondary mb-4">Browse by Brand</h2>
-            <p class="text-gray-600">Explore top car brands available in our inventory</p>
+    <!-- Cars Grid -->
+    <div class="container">
+        <h2 class="section-title">
+            <i class="fas fa-fire"></i>
+            Featured Vehicles
+        </h2>
+        <div class="cars-grid" id="carsGrid">
+            <!-- Cars will be inserted here by JavaScript -->
         </div>
-        
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            <div class="brand-card bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all cursor-pointer transform hover:-translate-y-2 border border-gray-100 group" onclick="filterByBrand('Maruti')">
-                <div class="h-16 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-car text-4xl text-gray-400 group-hover:text-primary transition-colors"></i>
-                </div>
-                <p class="text-center font-semibold text-gray-700">Maruti Suzuki</p>
-                <p class="text-center text-sm text-gray-500">2,450 cars</p>
-            </div>
-            <div class="brand-card bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all cursor-pointer transform hover:-translate-y-2 border border-gray-100 group" onclick="filterByBrand('Hyundai')">
-                <div class="h-16 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-car text-4xl text-gray-400 group-hover:text-primary transition-colors"></i>
-                </div>
-                <p class="text-center font-semibold text-gray-700">Hyundai</p>
-                <p class="text-center text-sm text-gray-500">1,832 cars</p>
-            </div>
-            <div class="brand-card bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all cursor-pointer transform hover:-translate-y-2 border border-gray-100 group" onclick="filterByBrand('Honda')">
-                <div class="h-16 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-car text-4xl text-gray-400 group-hover:text-primary transition-colors"></i>
-                </div>
-                <p class="text-center font-semibold text-gray-700">Honda</p>
-                <p class="text-center text-sm text-gray-500">945 cars</p>
-            </div>
-            <div class="brand-card bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all cursor-pointer transform hover:-translate-y-2 border border-gray-100 group" onclick="filterByBrand('Toyota')">
-                <div class="h-16 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-car text-4xl text-gray-400 group-hover:text-primary transition-colors"></i>
-                </div>
-                <p class="text-center font-semibold text-gray-700">Toyota</p>
-                <p class="text-center text-sm text-gray-500">723 cars</p>
-            </div>
-            <div class="brand-card bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all cursor-pointer transform hover:-translate-y-2 border border-gray-100 group" onclick="filterByBrand('Mahindra')">
-                <div class="h-16 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-truck-pickup text-4xl text-gray-400 group-hover:text-primary transition-colors"></i>
-                </div>
-                <p class="text-center font-semibold text-gray-700">Mahindra</p>
-                <p class="text-center text-sm text-gray-500">654 cars</p>
-            </div>
-            <div class="brand-card bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all cursor-pointer transform hover:-translate-y-2 border border-gray-100 group" onclick="filterByBrand('Tata')">
-                <div class="h-16 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-car text-4xl text-gray-400 group-hover:text-primary transition-colors"></i>
-                </div>
-                <p class="text-center font-semibold text-gray-700">Tata</p>
-                <p class="text-center text-sm text-gray-500">892 cars</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Cars Section -->
-    <section id="featured-cars" class="py-20 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
-                <div>
-                    <h2 class="text-4xl font-bold text-secondary mb-2">Featured Cars</h2>
-                    <p class="text-gray-600">Handpicked premium vehicles for you</p>
-                </div>
-                
-                <!-- Filters -->
-                <div class="flex gap-3 mt-6 md:mt-0 overflow-x-auto scroll-hidden pb-2">
-                    <button class="filter-chip active px-6 py-2 rounded-full border border-gray-300 bg-white text-gray-700 font-medium transition-all whitespace-nowrap" onclick="filterCars('all', this)">All Cars</button>
-                    <button class="filter-chip px-6 py-2 rounded-full border border-gray-300 bg-white text-gray-700 font-medium transition-all whitespace-nowrap" onclick="filterCars('suv', this)">SUV</button>
-                    <button class="filter-chip px-6 py-2 rounded-full border border-gray-300 bg-white text-gray-700 font-medium transition-all whitespace-nowrap" onclick="filterCars('sedan', this)">Sedan</button>
-                    <button class="filter-chip px-6 py-2 rounded-full border border-gray-300 bg-white text-gray-700 font-medium transition-all whitespace-nowrap" onclick="filterCars('hatchback', this)">Hatchback</button>
-                    <button class="filter-chip px-6 py-2 rounded-full border border-gray-300 bg-white text-gray-700 font-medium transition-all whitespace-nowrap" onclick="filterCars('luxury', this)">Luxury</button>
-                </div>
-            </div>
-
-            <!-- Cars Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="cars-grid">
-                <!-- Car Card 1 -->
-                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group" data-category="suv">
-                    <div class="relative overflow-hidden h-56">
-                        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&auto=format&fit=crop" alt="Hyundai Creta" class="car-image w-full h-full object-cover transition-transform duration-500">
-                        <div class="absolute top-4 left-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                            CERTIFIED
-                        </div>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-secondary text-xs font-bold px-3 py-1 rounded-full">
-                            <i class="fas fa-camera mr-1"></i> 12
-                        </div>
-                        <button onclick="toggleWishlist(this)" class="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg hover:bg-primary hover:text-white transition-all transform hover:scale-110">
-                            <i class="far fa-heart text-gray-600"></i>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <h3 class="text-xl font-bold text-secondary">Hyundai Creta</h3>
-                                <p class="text-gray-500 text-sm">SX Petrol • 2022</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-2xl font-bold text-primary">₹12.5L</p>
-                                <p class="text-xs text-gray-400 line-through">₹14.2L</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center gap-4 my-4 text-sm text-gray-600">
-                            <span class="flex items-center gap-1"><i class="fas fa-tachometer-alt text-primary"></i> 15,000 km</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-gas-pump text-primary"></i> Petrol</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-cog text-primary"></i> Auto</span>
-                        </div>
-
-                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-gray-600 text-sm"></i>
-                                </div>
-                                <span class="text-sm text-gray-600">Mumbai</span>
-                            </div>
-                            <button onclick="openCarDetails('Hyundai Creta', 12.5, 'https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&auto=format&fit=crop')" class="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-primary transition-colors text-sm font-medium">
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car Card 2 -->
-                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group" data-category="sedan">
-                    <div class="relative overflow-hidden h-56">
-                        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&auto=format&fit=crop" alt="Honda City" class="car-image w-full h-full object-cover transition-transform duration-500">
-                        <div class="absolute top-4 left-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                            CERTIFIED
-                        </div>
-                        <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                            HOT DEAL
-                        </div>
-                        <button onclick="toggleWishlist(this)" class="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg hover:bg-primary hover:text-white transition-all transform hover:scale-110">
-                            <i class="far fa-heart text-gray-600"></i>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <h3 class="text-xl font-bold text-secondary">Honda City</h3>
-                                <p class="text-gray-500 text-sm">ZX CVT • 2021</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-2xl font-bold text-primary">₹9.8L</p>
-                                <p class="text-xs text-gray-400 line-through">₹11.5L</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center gap-4 my-4 text-sm text-gray-600">
-                            <span class="flex items-center gap-1"><i class="fas fa-tachometer-alt text-primary"></i> 28,000 km</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-gas-pump text-primary"></i> Petrol</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-cog text-primary"></i> CVT</span>
-                        </div>
-
-                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-gray-600 text-sm"></i>
-                                </div>
-                                <span class="text-sm text-gray-600">Delhi NCR</span>
-                            </div>
-                            <button onclick="openCarDetails('Honda City', 9.8, 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&auto=format&fit=crop')" class="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-primary transition-colors text-sm font-medium">
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car Card 3 -->
-                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group" data-category="hatchback">
-                    <div class="relative overflow-hidden h-56">
-                        <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&auto=format&fit=crop" alt="Maruti Baleno" class="car-image w-full h-full object-cover transition-transform duration-500">
-                        <div class="absolute top-4 left-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                            CERTIFIED
-                        </div>
-                        <button onclick="toggleWishlist(this)" class="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg hover:bg-primary hover:text-white transition-all transform hover:scale-110">
-                            <i class="far fa-heart text-gray-600"></i>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <h3 class="text-xl font-bold text-secondary">Maruti Baleno</h3>
-                                <p class="text-gray-500 text-sm">Alpha • 2023</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-2xl font-bold text-primary">₹7.2L</p>
-                                <p class="text-xs text-gray-400 line-through">₹8.1L</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center gap-4 my-4 text-sm text-gray-600">
-                            <span class="flex items-center gap-1"><i class="fas fa-tachometer-alt text-primary"></i> 8,500 km</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-gas-pump text-primary"></i> Petrol</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-cog text-primary"></i> Manual</span>
-                        </div>
-
-                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-gray-600 text-sm"></i>
-                                </div>
-                                <span class="text-sm text-gray-600">Bangalore</span>
-                            </div>
-                            <button onclick="openCarDetails('Maruti Baleno', 7.2, 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&auto=format&fit=crop')" class="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-primary transition-colors text-sm font-medium">
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car Card 4 -->
-                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group" data-category="luxury">
-                    <div class="relative overflow-hidden h-56">
-                        <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&auto=format&fit=crop" alt="BMW X1" class="car-image w-full h-full object-cover transition-transform duration-500">
-                        <div class="absolute top-4 left-4 bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                            LUXURY
-                        </div>
-                        <button onclick="toggleWishlist(this)" class="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg hover:bg-primary hover:text-white transition-all transform hover:scale-110">
-                            <i class="far fa-heart text-gray-600"></i>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <h3 class="text-xl font-bold text-secondary">BMW X1</h3>
-                                <p class="text-gray-500 text-sm">sDrive20i • 2020</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-2xl font-bold text-primary">₹32.5L</p>
-                                <p class="text-xs text-gray-400 line-through">₹38.0L</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center gap-4 my-4 text-sm text-gray-600">
-                            <span class="flex items-center gap-1"><i class="fas fa-tachometer-alt text-primary"></i> 35,000 km</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-gas-pump text-primary"></i> Petrol</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-cog text-primary"></i> Auto</span>
-                        </div>
-
-                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-gray-600 text-sm"></i>
-                                </div>
-                                <span class="text-sm text-gray-600">Hyderabad</span>
-                            </div>
-                            <button onclick="openCarDetails('BMW X1', 32.5, 'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&auto=format&fit=crop')" class="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-primary transition-colors text-sm font-medium">
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car Card 5 -->
-                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group" data-category="suv">
-                    <div class="relative overflow-hidden h-56">
-                        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&auto=format&fit=crop" alt="Mahindra Thar" class="car-image w-full h-full object-cover transition-transform duration-500">
-                        <div class="absolute top-4 left-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                            CERTIFIED
-                        </div>
-                        <div class="absolute top-4 right-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                            TRENDING
-                        </div>
-                        <button onclick="toggleWishlist(this)" class="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg hover:bg-primary hover:text-white transition-all transform hover:scale-110">
-                            <i class="far fa-heart text-gray-600"></i>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <h3 class="text-xl font-bold text-secondary">Mahindra Thar</h3>
-                                <p class="text-gray-500 text-sm">LX 4WD • 2022</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-2xl font-bold text-primary">₹14.8L</p>
-                                <p class="text-xs text-gray-400 line-through">₹16.5L</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center gap-4 my-4 text-sm text-gray-600">
-                            <span class="flex items-center gap-1"><i class="fas fa-tachometer-alt text-primary"></i> 12,000 km</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-gas-pump text-primary"></i> Diesel</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-cog text-primary"></i> Auto</span>
-                        </div>
-
-                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-gray-600 text-sm"></i>
-                                </div>
-                                <span class="text-sm text-gray-600">Pune</span>
-                            </div>
-                            <button onclick="openCarDetails('Mahindra Thar', 14.8, 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&auto=format&fit=crop')" class="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-primary transition-colors text-sm font-medium">
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car Card 6 -->
-                <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group" data-category="hatchback">
-                    <div class="relative overflow-hidden h-56">
-                        <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=600&auto=format&fit=crop" alt="Tata Altroz" class="car-image w-full h-full object-cover transition-transform duration-500">
-                        <div class="absolute top-4 left-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                            CERTIFIED
-                        </div>
-                        <button onclick="toggleWishlist(this)" class="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg hover:bg-primary hover:text-white transition-all transform hover:scale-110">
-                            <i class="far fa-heart text-gray-600"></i>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <h3 class="text-xl font-bold text-secondary">Tata Altroz</h3>
-                                <p class="text-gray-500 text-sm">XZ+ • 2022</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-2xl font-bold text-primary">₹6.9L</p>
-                                <p class="text-xs text-gray-400 line-through">₹7.8L</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center gap-4 my-4 text-sm text-gray-600">
-                            <span class="flex items-center gap-1"><i class="fas fa-tachometer-alt text-primary"></i> 18,000 km</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-gas-pump text-primary"></i> Petrol</span>
-                            <span class="flex items-center gap-1"><i class="fas fa-cog text-primary"></i> Manual</span>
-                        </div>
-
-                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-gray-600 text-sm"></i>
-                                </div>
-                                <span class="text-sm text-gray-600">Chennai</span>
-                            </div>
-                            <button onclick="openCarDetails('Tata Altroz', 6.9, 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=600&auto=format&fit=crop')" class="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-primary transition-colors text-sm font-medium">
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-12">
-                <button class="bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full font-bold transition-all transform hover:scale-105">
-                    View All Cars <i class="fas fa-arrow-right ml-2"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Choose Us -->
-    <section class="py-20 bg-secondary text-white">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">Why Choose CarDekho Bazaar?</h2>
-                <p class="text-gray-400">We make buying used cars simple, transparent, and trustworthy</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="bg-white/5 backdrop-blur rounded-2xl p-8 border border-white/10 hover:border-primary/50 transition-all group">
-                    <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-clipboard-check text-3xl text-primary"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">200+ Point Check</h3>
-                    <p class="text-gray-400 text-sm">Every car undergoes rigorous inspection by certified experts</p>
-                </div>
-
-                <div class="bg-white/5 backdrop-blur rounded-2xl p-8 border border-white/10 hover:border-primary/50 transition-all group">
-                    <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-undo text-3xl text-primary"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">7-Day Return</h3>
-                    <p class="text-gray-400 text-sm">Not satisfied? Return the car within 7 days for full refund</p>
-                </div>
-
-                <div class="bg-white/5 backdrop-blur rounded-2xl p-8 border border-white/10 hover:border-primary/50 transition-all group">
-                    <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-shield-alt text-3xl text-primary"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">1 Year Warranty</h3>
-                    <p class="text-gray-400 text-sm">Comprehensive warranty on engine, gearbox, and transmission</p>
-                </div>
-
-                <div class="bg-white/5 backdrop-blur rounded-2xl p-8 border border-white/10 hover:border-primary/50 transition-all group">
-                    <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-percentage text-3xl text-primary"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Easy Finance</h3>
-                    <p class="text-gray-400 text-sm">Low interest rates starting from 8.5% with instant approval</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- EMI Calculator -->
-    <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="text-4xl font-bold text-secondary mb-6">Calculate Your EMI</h2>
-                    <p class="text-gray-600 mb-8">Plan your finances with our easy-to-use EMI calculator. Get instant estimates for your dream car.</p>
-                    
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Loan Amount (₹)</label>
-                            <input type="range" min="100000" max="5000000" value="1000000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary" id="loan-amount" oninput="updateEMI()">
-                            <div class="flex justify-between text-sm text-gray-600 mt-1">
-                                <span>₹1L</span>
-                                <span class="font-bold text-primary" id="loan-display">₹10,00,000</span>
-                                <span>₹50L</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Interest Rate (%)</label>
-                            <input type="range" min="8" max="15" step="0.1" value="10.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary" id="interest-rate" oninput="updateEMI()">
-                            <div class="flex justify-between text-sm text-gray-600 mt-1">
-                                <span>8%</span>
-                                <span class="font-bold text-primary" id="rate-display">10.5%</span>
-                                <span>15%</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Tenure (Years)</label>
-                            <input type="range" min="1" max="7" value="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary" id="tenure" oninput="updateEMI()">
-                            <div class="flex justify-between text-sm text-gray-600 mt-1">
-                                <span>1 Year</span>
-                                <span class="font-bold text-primary" id="tenure-display">5 Years</span>
-                                <span>7 Years</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-gradient-to-br from-secondary to-accent rounded-3xl p-8 text-white shadow-2xl">
-                    <div class="text-center mb-8">
-                        <p class="text-gray-300 mb-2">Your Monthly EMI</p>
-                        <h3 class="text-5xl font-bold text-primary" id="emi-result">₹21,494</h3>
-                    </div>
-                    
-                    <div class="space-y-4 bg-white/10 rounded-2xl p-6">
-                        <div class="flex justify-between">
-                            <span class="text-gray-300">Principal Amount</span>
-                            <span class="font-semibold" id="principal-display">₹10,00,000</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-300">Total Interest Payable</span>
-                            <span class="font-semibold" id="interest-display">₹2,89,640</span>
-                        </div>
-                        <div class="border-t border-white/20 pt-4 flex justify-between text-lg">
-                            <span class="text-gray-300">Total Amount</span>
-                            <span class="font-bold text-primary" id="total-display">₹12,89,640</span>
-                        </div>
-                    </div>
-
-                    <button class="w-full mt-6 bg-primary hover:bg-orange-600 text-white font-bold py-4 rounded-xl transition-all transform hover:scale-105">
-                        Get Loan Offers <i class="fas fa-arrow-right ml-2"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-secondary mb-4">What Our Customers Say</h2>
-                <p class="text-gray-600">Trusted by over 50,000 happy car owners across India</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
-                    <div class="flex text-yellow-400 mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6">"Excellent experience! The car was exactly as described in the listing. The 200-point inspection report gave me complete confidence. Highly recommended!"</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">RK</div>
-                        <div>
-                            <h4 class="font-bold text-secondary">Rahul Kumar</h4>
-                            <p class="text-sm text-gray-500">Bought Hyundai Creta</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
-                    <div class="flex text-yellow-400 mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6">"The financing options were great! Got my loan approved within 24 hours at 8.9% interest. The whole process was smooth and transparent."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white font-bold">SP</div>
-                        <div>
-                            <h4 class="font-bold text-secondary">Sarah Patel</h4>
-                            <p class="text-sm text-gray-500">Bought Honda City</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
-                    <div class="flex text-yellow-400 mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6">"Best platform for used cars in India. The 7-day return policy is a game changer. Though I loved my Thar and decided to keep it!"</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">AM</div>
-                        <div>
-                            <h4 class="font-bold text-secondary">Amit Mishra</h4>
-                            <p class="text-sm text-gray-500">Bought Mahindra Thar</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-20 bg-primary relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
-        </div>
-        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Ready to Sell Your Car?</h2>
-            <p class="text-xl text-white/90 mb-8">Get the best price for your car in just 24 hours. Free inspection and instant payment.</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button class="bg-white text-primary font-bold py-4 px-8 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl">
-                    Sell Your Car Now
-                </button>
-                <button class="bg-transparent border-2 border-white text-white font-bold py-4 px-8 rounded-full hover:bg-white hover:text-primary transition-all">
-                    Check Car Value
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-secondary text-white pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-                <div>
-                    <div class="flex items-center gap-2 mb-6">
-                        <i class="fas fa-car-side text-3xl text-primary"></i>
-                        <h3 class="text-2xl font-bold">CarDekho<span class="text-primary">Bazaar</span></h3>
-                    </div>
-                    <p class="text-gray-400 mb-6">India's most trusted platform for buying and selling certified used cars with complete transparency.</p>
-                    <div class="flex gap-4">
-                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold mb-6">Quick Links</h4>
-                    <ul class="space-y-3 text-gray-400">
-                        <li><a href="#" class="hover:text-primary transition-colors">Buy Used Cars</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Sell Your Car</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Car Valuation</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Car Loan</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Insurance</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold mb-6">Popular Cities</h4>
-                    <ul class="space-y-3 text-gray-400">
-                        <li><a href="#" class="hover:text-primary transition-colors">Delhi NCR</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Mumbai</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Bangalore</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Hyderabad</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Chennai</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold mb-6">Contact Us</h4>
-                    <ul class="space-y-3 text-gray-400">
-                        <li class="flex items-center gap-3"><i class="fas fa-phone text-primary"></i> 1800-123-4567</li>
-                        <li class="flex items-center gap-3"><i class="fas fa-envelope text-primary"></i> support@cardekhobazaar.com</li>
-                        <li class="flex items-center gap-3"><i class="fas fa-map-marker-alt text-primary"></i> Sector 62, Noida, UP</li>
-                    </ul>
-                    <div class="mt-6">
-                        <h5 class="font-semibold mb-3">Download Our App</h5>
-                        <div class="flex gap-3">
-                            <button class="bg-white/10 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-white/20 transition-colors">
-                                <i class="fab fa-apple text-xl"></i>
-                                <div class="text-left">
-                                    <div class="text-xs">Download on</div>
-                                    <div class="text-sm font-bold">App Store</div>
-                                </div>
-                            </button>
-                            <button class="bg-white/10 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-white/20 transition-colors">
-                                <i class="fab fa-google-play text-xl"></i>
-                                <div class="text-left">
-                                    <div class="text-xs">Get it on</div>
-                                    <div class="text-sm font-bold">Play Store</div>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-gray-400 text-sm">© 2024 CarDekho Bazaar. All rights reserved.</p>
-                <div class="flex gap-6 text-sm text-gray-400">
-                    <a href="#" class="hover:text-primary transition-colors">Privacy Policy</a>
-                    <a href="#" class="hover:text-primary transition-colors">Terms of Service</a>
-                    <a href="#" class="hover:text-primary transition-colors">Sitemap</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    </div>
 
     <!-- Car Details Modal -->
-    <div id="car-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-slide-up">
-            <div class="sticky top-0 bg-white border-b p-4 flex justify-between items-center z-10">
-                <h3 class="text-2xl font-bold text-secondary" id="modal-title">Car Details</h3>
-                <button onclick="closeCarDetails()" class="w-10 h-10 bg-gray-100 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors">
-                    <i class="fas fa-times text-gray-600"></i>
-                </button>
-            </div>
-            <div class="p-6">
-                <img id="modal-image" src="" alt="Car" class="w-full h-64 object-cover rounded-xl mb-6">
-                <div class="grid md:grid-cols-2 gap-6">
+    <div class="modal" id="carModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img class="modal-image" id="modalImage" src="" alt="">
+            <div class="modal-body">
+                <div class="modal-header">
                     <div>
-                        <h4 class="text-xl font-bold text-secondary mb-4">Key Specifications</h4>
-                        <div class="space-y-3">
-                            <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="text-gray-600">Registration Year</span>
-                                <span class="font-semibold">2022</span>
-                            </div>
-                            <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="text-gray-600">Fuel Type</span>
-                                <span class="font-semibold">Petrol</span>
-                            </div>
-                            <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="text-gray-600">Transmission</span>
-                                <span class="font-semibold">Automatic</span>
-                            </div>
-                            <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="text-gray-600">KM Driven</span>
-                                <span class="font-semibold">15,000 km</span>
-                            </div>
-                            <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="text-gray-600">Ownership</span>
-                                <span class="font-semibold">First Owner</span>
-                            </div>
-                        </div>
+                        <h2 class="modal-title" id="modalTitle"></h2>
+                        <p id="modalSubtitle" style="color: var(--gray); margin-top: 0.5rem;"></p>
                     </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-secondary mb-4">Price Breakdown</h4>
-                        <div class="bg-gray-50 rounded-xl p-6 space-y-3">
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Car Price</span>
-                                <span class="font-semibold" id="modal-price">₹12.5L</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Processing Fee</span>
-                                <span class="font-semibold">₹5,000</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Insurance (1 Year)</span>
-                                <span class="font-semibold">₹18,000</span>
-                            </div>
-                            <div class="border-t pt-3 flex justify-between text-lg font-bold">
-                                <span>On-Road Price</span>
-                                <span class="text-primary" id="modal-total">₹12.73L</span>
-                            </div>
-                        </div>
-                        <button class="w-full mt-6 bg-primary hover:bg-orange-600 text-white font-bold py-4 rounded-xl transition-all transform hover:scale-105">
-                            Book Test Drive
-                        </button>
+                    <div class="modal-price" id="modalPrice"></div>
+                </div>
+                
+                <div class="features-grid" id="modalFeatures"></div>
+                
+                <div class="seller-info">
+                    <div class="seller-avatar">
+                        <i class="fas fa-user"></i>
                     </div>
+                    <div class="seller-details">
+                        <h4>Contact Seller</h4>
+                        <p>Available on WhatsApp for instant response</p>
+                    </div>
+                    <button class="btn btn-whatsapp" id="modalWhatsApp" style="margin-left: auto;">
+                        <i class="fab fa-whatsapp"></i>
+                        Message Now
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Favorites Sidebar -->
+    <div class="overlay" id="overlay" onclick="toggleFavorites()"></div>
+    <div class="favorites-sidebar" id="favoritesSidebar">
+        <div class="favorites-header">
+            <h2><i class="fas fa-heart"></i> Your Favorites</h2>
+            <button class="close-favorites" onclick="toggleFavorites()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="favorites-list" id="favoritesList">
+            <div class="favorites-empty">
+                <i class="fas fa-heart-broken"></i>
+                <h3>No favorites yet</h3>
+                <p>Start adding cars you love!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Added to favorites!</span>
+    </div>
+
     <script>
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('shadow-lg');
-            } else {
-                navbar.classList.remove('shadow-lg');
+        // Car Data
+        const carsData = [
+            {
+                id: 1,
+                brand: 'bmw',
+                model: 'M4 Competition',
+                year: 2023,
+                price: 78500,
+                mileage: 12500,
+                type: 'coupe',
+                fuel: 'Petrol',
+                transmission: 'Automatic',
+                image: 'https://images.unsplash.com/photo-1555215695-3004980adade?w=800&q=80',
+                features: ['M Sport Package', 'Carbon Fiber Roof', 'Harman Kardon Sound', 'Heads-Up Display'],
+                description: 'Immaculate condition M4 Competition with full service history.'
+            },
+            {
+                id: 2,
+                brand: 'mercedes',
+                model: 'E-Class AMG',
+                year: 2022,
+                price: 62000,
+                mileage: 18000,
+                type: 'sedan',
+                fuel: 'Petrol',
+                transmission: 'Automatic',
+                image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',
+                features: ['AMG Line', 'Burmester Sound', 'Panoramic Roof', '360 Camera'],
+                description: 'Luxury sedan with AMG styling and premium features.'
+            },
+            {
+                id: 3,
+                brand: 'audi',
+                model: 'RS6 Avant',
+                year: 2023,
+                price: 115000,
+                mileage: 8000,
+                type: 'wagon',
+                fuel: 'Petrol',
+                transmission: 'Automatic',
+                image: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=800&q=80',
+                features: ['RS Design Package', 'Carbon Ceramics', 'B&O Sound', 'Dynamic Steering'],
+                description: 'The ultimate performance wagon in pristine condition.'
+            },
+            {
+                id: 4,
+                brand: 'toyota',
+                model: 'Land Cruiser',
+                year: 2021,
+                price: 55000,
+                mileage: 35000,
+                type: 'suv',
+                fuel: 'Diesel',
+                transmission: 'Automatic',
+                image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80',
+                features: ['Off-road Package', '7 Seats', 'Tow Hitch', 'Roof Rails'],
+                description: 'Reliable SUV perfect for family adventures.'
+            },
+            {
+                id: 5,
+                brand: 'honda',
+                model: 'Civic Type R',
+                year: 2023,
+                price: 42000,
+                mileage: 5000,
+                type: 'hatchback',
+                fuel: 'Petrol',
+                transmission: 'Manual',
+                image: 'https://images.unsplash.com/photo-1605816988067-b4b0b5b7a63e?w=800&q=80',
+                features: ['R Performance', 'Brembo Brakes', 'Data Logger', 'Carbon Wing'],
+                description: 'Track-focused hot hatch with low mileage.'
+            },
+            {
+                id: 6,
+                brand: 'bmw',
+                model: 'X5 M50i',
+                year: 2022,
+                price: 68000,
+                mileage: 22000,
+                type: 'suv',
+                fuel: 'Petrol',
+                transmission: 'Automatic',
+                image: 'https://images.unsplash.com/photo-1556189250-72ba954e6796?w=800&q=80',
+                features: ['M Sport Exhaust', 'Air Suspension', 'Soft Close Doors', 'Laser Lights'],
+                description: 'Powerful SUV with luxury amenities.'
             }
+        ];
+
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let currentCars = [...carsData];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCars(carsData);
+            updateFavoritesCount();
         });
 
-        // Counter animation
-        const counters = document.querySelectorAll('.counter');
-        const speed = 200;
-
-        const animateCounters = () => {
-            counters.forEach(counter => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                const inc = target / speed;
-
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + inc);
-                    setTimeout(animateCounters, 20);
-                } else {
-                    counter.innerText = target;
-                }
-            });
-        };
-
-        // Intersection Observer for counters
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounters();
-                    observer.unobserve(entry.target);
-                }
-            });
-        });
-
-        document.querySelector('.counter').parentElement.parentElement && observer.observe(document.querySelector('.counter').parentElement.parentElement);
-
-        // Filter cars
-        function filterCars(category, btn) {
-            // Update active button
-            document.querySelectorAll('.filter-chip').forEach(chip => {
-                chip.classList.remove('active');
-            });
-            btn.classList.add('active');
-
-            // Filter logic
-            const cars = document.querySelectorAll('.car-card');
-            cars.forEach(car => {
-                if (category === 'all' || car.dataset.category === category) {
-                    car.style.display = 'block';
-                    car.style.animation = 'fadeIn 0.5s ease-out';
-                } else {
-                    car.style.display = 'none';
-                }
-            });
-        }
-
-        // Filter by brand
-        function filterByBrand(brand) {
-            scrollToCars();
-            // In a real app, this would filter by brand
-            alert(`Filtering by ${brand}...`);
-        }
-
-        // Scroll to cars section
-        function scrollToCars() {
-            document.getElementById('featured-cars').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Wishlist toggle
-        let wishlistCount = 0;
-        function toggleWishlist(btn) {
-            const icon = btn.querySelector('i');
-            if (icon.classList.contains('far')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                icon.classList.add('text-red-500');
-                wishlistCount++;
-                btn.classList.add('bg-red-50');
-            } else {
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                icon.classList.remove('text-red-500');
-                wishlistCount--;
-                btn.classList.remove('bg-red-50');
+        // Render Cars
+        function renderCars(cars) {
+            const grid = document.getElementById('carsGrid');
+            
+            if (cars.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h3>No cars found</h3>
+                        <p>Try adjusting your filters</p>
+                    </div>
+                `;
+                return;
             }
-            document.getElementById('wishlist-count').textContent = wishlistCount;
+
+            grid.innerHTML = cars.map(car => `
+                <div class="car-card" data-id="${car.id}">
+                    <div class="car-image-container">
+                        <img src="${car.image}" alt="${car.brand} ${car.model}" class="car-image">
+                        <span class="car-badge">Available</span>
+                        <button class="favorite-btn ${favorites.includes(car.id) ? 'active' : ''}" 
+                                onclick="toggleFavorite(${car.id}, event)">
+                            <i class="${favorites.includes(car.id) ? 'fas' : 'far'} fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="car-details">
+                        <div class="car-header">
+                            <div>
+                                <div class="car-title">${car.brand.toUpperCase()} ${car.model}</div>
+                                <div class="car-subtitle">${car.year} • ${car.mileage.toLocaleString()} miles</div>
+                            </div>
+                            <div class="car-price">$${car.price.toLocaleString()}</div>
+                        </div>
+                        <div class="car-specs">
+                            <div class="spec-item">
+                                <i class="fas fa-gas-pump"></i>
+                                <span>${car.fuel}</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-cog"></i>
+                                <span>${car.transmission}</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-car-side"></i>
+                                <span>${car.type}</span>
+                            </div>
+                        </div>
+                        <div class="car-actions">
+                            <button class="btn btn-whatsapp" onclick="contactWhatsApp(${car.id})">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </button>
+                            <button class="btn btn-details" onclick="openModal(${car.id})">
+                                <i class="fas fa-info-circle"></i>
+                                Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        // EMI Calculator
-        function updateEMI() {
-            const P = parseInt(document.getElementById('loan-amount').value);
-            const r = parseFloat(document.getElementById('interest-rate').value) / 12 / 100;
-            const n = parseInt(document.getElementById('tenure').value) * 12;
+        // Filter Cars
+        function filterCars() {
+            const brand = document.getElementById('brandFilter').value;
+            const price = document.getElementById('priceFilter').value;
+            const year = document.getElementById('yearFilter').value;
+            const type = document.getElementById('typeFilter').value;
 
-            document.getElementById('loan-display').textContent = '₹' + (P/100000).toFixed(1) + 'L';
-            document.getElementById('rate-display').textContent = (r*12*100).toFixed(1) + '%';
-            document.getElementById('tenure-display').textContent = (n/12) + ' Years';
+            currentCars = carsData.filter(car => {
+                let match = true;
+                
+                if (brand && car.brand !== brand) match = false;
+                if (year && car.year !== parseInt(year)) match = false;
+                if (type && car.type !== type) match = false;
+                
+                if (price) {
+                    if (price === '0-20000' && car.price >= 20000) match = false;
+                    if (price === '20000-40000' && (car.price < 20000 || car.price > 40000)) match = false;
+                    if (price === '40000-60000' && (car.price < 40000 || car.price > 60000)) match = false;
+                    if (price === '60000+' && car.price < 60000) match = false;
+                }
 
-            const emi = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
-            const totalAmount = emi * n;
-            const totalInterest = totalAmount - P;
+                return match;
+            });
 
-            document.getElementById('emi-result').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
-            document.getElementById('principal-display').textContent = '₹' + P.toLocaleString('en-IN');
-            document.getElementById('interest-display').textContent = '₹' + Math.round(totalInterest).toLocaleString('en-IN');
-            document.getElementById('total-display').textContent = '₹' + Math.round(totalAmount).toLocaleString('en-IN');
+            // Animate transition
+            const grid = document.getElementById('carsGrid');
+            grid.style.opacity = '0';
+            setTimeout(() => {
+                renderCars(currentCars);
+                grid.style.opacity = '1';
+            }, 300);
         }
 
-        // Car Details Modal
-        function openCarDetails(title, price, image) {
-            document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-price').textContent = '₹' + price + 'L';
-            document.getElementById('modal-total').textContent = '₹' + (price + 0.23).toFixed(2) + 'L';
-            document.getElementById('modal-image').src = image;
-            document.getElementById('car-modal').classList.remove('hidden');
+        // Favorites Functions
+        function toggleFavorite(carId, event) {
+            event.stopPropagation();
+            const index = favorites.indexOf(carId);
+            
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showToast('Removed from favorites');
+            } else {
+                favorites.push(carId);
+                showToast('Added to favorites');
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoritesCount();
+            renderCars(currentCars);
+            renderFavoritesList();
+        }
+
+        function updateFavoritesCount() {
+            document.getElementById('favCount').textContent = favorites.length;
+        }
+
+        function toggleFavorites() {
+            const sidebar = document.getElementById('favoritesSidebar');
+            const overlay = document.getElementById('overlay');
+            
+            if (sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                renderFavoritesList();
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+
+        function renderFavoritesList() {
+            const list = document.getElementById('favoritesList');
+            
+            if (favorites.length === 0) {
+                list.innerHTML = `
+                    <div class="favorites-empty">
+                        <i class="fas fa-heart-broken"></i>
+                        <h3>No favorites yet</h3>
+                        <p>Start adding cars you love!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const favoriteCars = carsData.filter(car => favorites.includes(car.id));
+            list.innerHTML = favoriteCars.map(car => `
+                <div class="favorite-item">
+                    <img src="${car.image}" alt="${car.brand} ${car.model}">
+                    <div class="favorite-info">
+                        <h4>${car.brand.toUpperCase()} ${car.model}</h4>
+                        <p>$${car.price.toLocaleString()}</p>
+                        <button class="remove-favorite" onclick="toggleFavorite(${car.id}, event)">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Modal Functions
+        function openModal(carId) {
+            const car = carsData.find(c => c.id === carId);
+            if (!car) return;
+
+            document.getElementById('modalImage').src = car.image;
+            document.getElementById('modalTitle').textContent = `${car.brand.toUpperCase()} ${car.model}`;
+            document.getElementById('modalSubtitle').textContent = `${car.year} • ${car.mileage.toLocaleString()} miles • ${car.description}`;
+            document.getElementById('modalPrice').textContent = `$${car.price.toLocaleString()}`;
+            
+            const featuresHtml = car.features.map(feature => `
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>${feature}</span>
+                </div>
+            `).join('');
+            document.getElementById('modalFeatures').innerHTML = featuresHtml;
+            
+            document.getElementById('modalWhatsApp').onclick = () => contactWhatsApp(carId);
+            
+            document.getElementById('carModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
-        function closeCarDetails() {
-            document.getElementById('car-modal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
+        function closeModal() {
+            document.getElementById('carModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // WhatsApp Integration
+        function contactWhatsApp(carId) {
+            const car = carsData.find(c => c.id === carId);
+            if (!car) return;
+
+            const phoneNumber = '1234567890'; // Replace with actual business number
+            const message = `Hi! I'm interested in the ${car.year} ${car.brand.toUpperCase()} ${car.model} listed for $${car.price.toLocaleString()}. Is it still available?`;
+            
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
 
         // Close modal on outside click
-        document.getElementById('car-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('car-modal')) {
-                closeCarDetails();
-            }
+        document.getElementById('carModal').addEventListener('click', (e) => {
+            if (e.target.id === 'carModal') closeModal();
         });
 
-        // Initialize EMI calculator
-        updateEMI();
-
-        // Add scroll reveal animation
-        const revealElements = document.querySelectorAll('.car-card, .brand-card');
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                if (document.getElementById('favoritesSidebar').classList.contains('active')) {
+                    toggleFavorites();
                 }
-            });
-        }, { threshold: 0.1 });
-
-        revealElements.forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'all 0.6s ease-out';
-            revealObserver.observe(el);
+            }
         });
     </script>
 </body>
