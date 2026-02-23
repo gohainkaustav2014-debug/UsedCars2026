@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "vite build --root public --outDir dist"
+    "build": "vite build public --outDir dist"
   },
   "devDependencies": {
     "vite": "^5.0.0"
