@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GENDRIVE- Used Cars Marketplace</title>
+    <title>GENXDRIVE AUTO - Used Cars Marketplace</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
@@ -33,7 +33,8 @@
         }
 
         /* Animated Background */
-        .bg-animation {
+        .bg-animation {	
+			background: var(--dark);
             position: fixed;
             top: 0;
             left: 0;
@@ -60,7 +61,7 @@
 
         /* Header */
         header {
-            background: var(--glass);
+            background: black;
             backdrop-filter: blur(20px);
             position: sticky;
             top: 0;
@@ -105,7 +106,7 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--dark);
+            color: var(--light);
             font-weight: 500;
             position: relative;
             transition: color 0.3s;
@@ -853,12 +854,12 @@
     <header>
         <nav>
             <a href="#" class="logo">
-             <img src="./images/carLogo2.jpg" width='150px' height="100px" alt="Image Found">   
+             <img src="./images/carLogo3.jpg" width='100px' height="100px" alt="Image Found">   
             </a>
             <div class="nav-links">
                 <a href="#inventory">Inventory</a>
                 <a href="#about">About</a>
-                <a href="#contact">Contact</a>
+                <a href="contactGoogleForm.html">Contact</a>
                 <button class="favorites-btn" onclick="toggleFavorites()">
                     <i class="fas fa-heart"></i>
                     Favorites
@@ -871,7 +872,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <h1>Find Your Dream Car</h1>
-        <p>GENDRIVE used cars with verified history and instant WhatsApp support</p>
+        <p>GENXDRIVE AUTO used cars with verified history and instant WhatsApp support</p>
     </section>
 
     <!-- Filter Section -->
@@ -1025,7 +1026,7 @@
                 transmission: 'Automatic',
                 image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',
                 features: ['AMG Line', 'Burmester Sound', 'Panoramic Roof', '360 Camera'],
-                description: 'Luxury sedan with AMG styling and GENDRIVE features.'
+                description: 'Luxury sedan with AMG styling and GENXDRIVE AUTO features.'
             },
             {
                 id: 3,
@@ -1289,7 +1290,7 @@
             const car = carsData.find(c => c.id === carId);
             if (!car) return;
 
-            const phoneNumber = '918587055008'; // Replace with actual business number
+            const phoneNumber = '917002161200'; // Replace with actual business number
             const message = `Hi! I'm interested in the ${car.year} ${car.brand.toUpperCase()} ${car.model} listed for $${car.price.toLocaleString()}. Is it still available?`;
             
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
