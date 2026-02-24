@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Google Forms Style</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            background-image: radial-gradient(#e8eaed 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .google-font {
+            font-family: 'Google Sans', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dadce0; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #bdc1c6; 
+        }
+
+        /* Form Card Animation */
+        .form-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-left: 8px solid transparent;
+        }
+        
+        .form-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        }
+
+        .form-card:focus-within {
+            border-left-color: #4285f4; /* Google Blue */
+        }
+
+        /* Input Animation */
+        .input-group {
+            position: relative;
+        }
+        
+        .input-underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            width: 0;
+            background-color: #4285f4;
+            transition: width 0.3s ease;
+        }
+
+        input:focus ~ .input-underline, 
+        textarea:focus ~ .input-underline,
+        select:focus ~ .input-underline {
+            width: 100%;
+        }
+
+        /* Radio/Checkbox Customization */
+        .custom-radio:checked + div {
+            border-color: #4285f4;
+            background-color: #e8f0fe;
+        }
+        .custom-radio:checked + div .radio-dot {
+            transform: scale(1);
+        }
+
+        /* Header Gradient */
+        .header-gradient {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 33%, #fbbc05 66%, #ea4335 100%);
+            height: 12px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        /* Success Animation */
+        @keyframes checkmark {
+            0% { stroke-dashoffset: 100px; }
+            100% { stroke-dashoffset: 0px; }
+        }
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #34a853;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        .checkmark {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #fff;
+            stroke-miterlimit: 10;
+            margin: 10% auto;
+            box-shadow: inset 0px 0px 0px #34a853;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+        }
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+        @keyframes stroke {
+            100% { stroke-dashoffset: 0; }
+        }
+        @keyframes scale {
+            0%, 100% { transform: none; }
+            50% { transform: scale3d(1.1, 1.1, 1); }
+        }
+        @keyframes fill {
+            100% { box-shadow: inset 0px 0px 0px 30px #34a853; }
+        }
+
+        /* Floating Label Logic */
+        .floating-input:placeholder-shown + label {
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            color: #5f6368;
+        }
+        .floating-input:not(:placeholder-shown) + label,
+        .floating-input:focus + label {
+            top: -10px;
+            font-size: 0.75rem;
+            color: #4285f4;
+            background-color: white;
+            padding: 0 4px;
+        }
+
+        /* Placeholder blur effect on focus */
+        .floating-input:focus::placeholder {
+            filter: blur(2px);
+            opacity: 0.7;
+            transition: all 0.2s ease;
+        }
+        
+        .floating-input::placeholder {
+            filter: blur(0);
+            opacity: 1;
+            transition: all 0.2s ease;
+        }
+
+        /* 
+           Background Transparent Utility
+           Removes any background color from an element, making it see-through.
+           Useful for overlaying elements or creating glass-morphism effects.
+        */
+        input#firstName, #lastName, #email, #message {
+		 background-color: white; 
+		}
+    </style>
+</head>
+<body class="min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-3xl mx-auto">
+        
+        <!-- Header Section -->
+        <div class="bg-white rounded-lg shadow-sm mb-4 overflow-hidden relative">
+            <div class="header-gradient w-full absolute top-0 left-0"></div>
+            <div class="p-8 pt-12">
+                <h1 class="text-3xl font-normal text-gray-800 google-font mb-2">Contact Support</h1>
+                <p class="text-gray-600 text-sm">Please fill out the form below. We typically respond within 24 hours.</p>
+                <div class="mt-4 text-red-500 text-sm font-medium flex items-center">
+                    <span class="mr-1">*</span> Required
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Container -->
+        <form id="contactForm" class="space-y-3" onsubmit="handleSubmit(event)">
+            
+            <!-- Name Field -->
+            <div class="form-card bg-white p-6 rounded-lg shadow-sm border border-gray-200 relative">
+                <label class="block text-gray-800 text-base font-medium mb-4">
+                    Full Name <span class="text-red-500">*</span>
+                </label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="input-group relative">
+                        <input type="text" id="firstName" required placeholder="First Name" 
+                            class="floating-input w-full border-b border-gray-300 py-2 px-1 text-gray-700 focus:outline-none focus:border-transparent bg-transparent relative z-10">
+                        <div class="input-underline"></div>
+                        <label for="firstName" class="absolute left-1 transition-all duration-200 pointer-events-none text-gray-500">First Name</label>
+                    </div>
+                    <div class="input-group relative">
+                        <input type="text" id="lastName" required placeholder="Last Name" 
+                            class="floating-input w-full border-b border-gray-300 py-2 px-1 text-gray-700 focus:outline-none focus:border-transparent bg-transparent relative z-10">
+                        <div class="input-underline"></div>
+                        <label for="lastName" class="absolute left-1 transition-all duration-200 pointer-events-none text-gray-500">Last Name</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-card bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <label for="email" class="block text-gray-800 text-base font-medium mb-2">
+                    Email Address <span class="text-red-500">*</span>
+                </label>
+                <div class="input-group relative mt-4">
+                    <input type="email" id="email" required placeholder="example@domain.com" 
+                        class="floating-input w-full border-b border-gray-300 py-2 px-1 text-gray-700 focus:outline-none focus:border-transparent bg-transparent relative z-10">
+                    <div class="input-underline"></div>
+                    <label for="email" class="absolute left-1 transition-all duration-200 pointer-events-none text-gray-500">Email Address</label>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">We will never share your email with anyone else.</p>
+            </div>
+
+            <!-- Department Select -->
+            <div class="form-card bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <label for="department" class="block text-gray-800 text-base font-medium mb-2">
+                    Department <span class="text-red-500">*</span>
+                </label>
+                <div class="relative mt-4">
+                    <select id="department" required 
+                        class="w-full border-b border-gray-300 py-2 px-1 text-gray-700 focus:outline-none focus:border-blue-500 bg-white appearance-none cursor-pointer">
+                        <option value="" disabled selected>Select a department</option>
+                        <option value="sales">Sales & Billing</option>
+                        <option value="tech">Technical Support</option>
+                        <option value="general">General Inquiry</option>
+                    </select>
+                    <div class="absolute right-2 top-3 pointer-events-none text-gray-500">
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </div>
+                    <div class="input-underline"></div>
+                </div>
+            </div>
+
+            <!-- Priority Radio -->
+            <div class="form-card bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <label class="block text-gray-800 text-base font-medium mb-4">
+                    Priority Level <span class="text-red-500">*</span>
+                </label>
+                <div class="space-y-3">
+                    <label class="flex items-center cursor-pointer group">
+                        <input type="radio" name="priority" value="low" class="custom-radio hidden" checked>
+                        <div class="w-5 h-5 border-2 border-gray-400 rounded-full mr-3 flex items-center justify-center transition-colors group-hover:border-blue-400">
+                            <div class="radio-dot w-2.5 h-2.5 bg-blue-500 rounded-full transform scale-0 transition-transform"></div>
+                        </div>
+                        <span class="text-gray-700">Low - General question</span>
+                    </label>
+                    <label class="flex items-center cursor-pointer group">
+                        <input type="radio" name="priority" value="medium" class="custom-radio hidden">
+                        <div class="w-5 h-5 border-2 border-gray-400 rounded-full mr-3 flex items-center justify-center transition-colors group-hover:border-blue-400">
+                            <div class="radio-dot w-2.5 h-2.5 bg-blue-500 rounded-full transform scale-0 transition-transform"></div>
+                        </div>
+                        <span class="text-gray-700">Medium - Something isn't working</span>
+                    </label>
+                    <label class="flex items-center cursor-pointer group">
+                        <input type="radio" name="priority" value="high" class="custom-radio hidden">
+                        <div class="w-5 h-5 border-2 border-gray-400 rounded-full mr-3 flex items-center justify-center transition-colors group-hover:border-blue-400">
+                            <div class="radio-dot w-2.5 h-2.5 bg-blue-500 rounded-full transform scale-0 transition-transform"></div>
+                        </div>
+                        <span class="text-gray-700">High - Critical system failure</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Message Textarea -->
+            <div class="form-card bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <label for="message" class="block text-gray-800 text-base font-medium mb-2">
+                    Message <span class="text-red-500">*</span>
+                </label>
+                <div class="input-group relative mt-4">
+                    <textarea id="message" rows="4" required placeholder="Describe your issue in detail..."
+                        class="floating-input w-full border-b border-gray-300 py-2 px-1 text-gray-700 focus:outline-none focus:border-transparent bg-transparent resize-none relative z-10"></textarea>
+                    <div class="input-underline"></div>
+                    <label for="message" class="absolute left-1 transition-all duration-200 pointer-events-none text-gray-500">Message</label>
+                </div>
+            </div>
+
+            <!-- File Upload (Visual Only) -->
+            <div class="form-card bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <label class="block text-gray-800 text-base font-medium mb-4">
+                    Attachments (Optional)
+                </label>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:bg-gray-50 transition-colors cursor-pointer relative group">
+                    <input type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="updateFileName(this)">
+                    <div class="text-gray-400 group-hover:text-blue-500 transition-colors">
+                        <i class="fas fa-cloud-upload-alt text-3xl mb-2"></i>
+                        <p class="text-sm font-medium">Click to upload or drag and drop</p>
+                        <p class="text-xs text-gray-400 mt-1" id="fileLabel">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms Checkbox -->
+            <div class="flex items-start mt-4 mb-8">
+                <div class="flex items-center h-5">
+                    <input id="terms" type="checkbox" required class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 text-blue-600">
+                </div>
+                <label for="terms" class="ml-2 text-sm font-medium text-gray-600">
+                    I agree to the <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a> and processing of my personal data.
+                </label>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-between items-center pb-12">
+                <button type="submit" id="submitBtn" class="bg-[#1a73e8] hover:bg-[#1557b0] text-white font-medium py-2.5 px-8 rounded transition-all duration-200 shadow-md hover:shadow-lg transform active:scale-95 flex items-center">
+                    <span>Submit</span>
+                    <i class="fas fa-paper-plane ml-2 text-sm"></i>
+                </button>
+                <button type="button" onclick="clearForm()" class="text-[#1a73e8] hover:bg-blue-50 font-medium py-2.5 px-6 rounded transition-colors">
+                    Clear form
+                </button>
+            </div>
+
+        </form>
+
+        <!-- Footer -->
+        <div class="text-center text-xs text-gray-500 pb-8">
+            <p>Google Forms Clone &copy; 2023</p>
+            <p class="mt-1">This content is neither created nor endorsed by Google.</p>
+        </div>
+
+    </div>
+
+    <!-- Success Modal Overlay -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-sm w-full mx-4 transform scale-90 transition-transform duration-300" id="modalContent">
+            <div class="checkmark-circle">
+                <div class="checkmark draw"></div>
+            </div>
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+            <h3 class="text-2xl font-medium text-center text-gray-800 mb-2 google-font">Response Received</h3>
+            <p class="text-center text-gray-500 text-sm mb-6">Thank you for contacting us. We have received your message and will get back to you shortly.</p>
+            <button onclick="closeModal()" class="w-full bg-[#1a73e8] text-white font-medium py-2 rounded hover:bg-[#1557b0] transition-colors">
+                Submit another response
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // File Upload Visual Feedback
+        function updateFileName(input) {
+            const label = document.getElementById('fileLabel');
+            if (input.files && input.files.length > 0) {
+                label.textContent = input.files[0].name;
+                label.classList.add('text-blue-600', 'font-medium');
+            } else {
+                label.textContent = 'SVG, PNG, JPG or GIF (max. 800x400px)';
+                label.classList.remove('text-blue-600', 'font-medium');
+            }
+        }
+
+        // Form Submission Logic
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            const originalContent = btn.innerHTML;
+            
+            // Loading State
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Sending...';
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            
+            // Simulate Network Request
+            setTimeout(() => {
+                showSuccessModal();
+                
+                // Reset Button
+                btn.disabled = false;
+                btn.innerHTML = originalContent;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }, 1500);
+        }
+
+        // Show Modal
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            const content = document.getElementById('modalContent');
+            
+            modal.classList.remove('hidden');
+            // Trigger reflow
+            void modal.offsetWidth;
+            
+            modal.classList.remove('opacity-0');
+            content.classList.remove('scale-90');
+            content.classList.add('scale-100');
+        }
+
+        // Close Modal
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            const content = document.getElementById('modalContent');
+            
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-90');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                clearForm();
+            }, 300);
+        }
+
+        // Clear Form
+        function clearForm() {
+            document.getElementById('contactForm').reset();
+            document.getElementById('fileLabel').textContent = 'SVG, PNG, JPG or GIF (max. 800x400px)';
+            document.getElementById('fileLabel').classList.remove('text-blue-600', 'font-medium');
+            
+            // Reset floating labels visual state if needed (browser handles most, but good for consistency)
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.blur();
+            });
+        }
+
+        // Add subtle parallax effect to header gradient on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const headers = document.querySelectorAll('.header-gradient');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            headers.forEach(header => {
+                header.style.backgroundPosition = `${x * 50}px ${y * 50}px`;
+            });
+        });
+    </script>
+</body>
+</html>
