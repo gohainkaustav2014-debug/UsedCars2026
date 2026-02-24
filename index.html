@@ -3,1323 +3,1142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GENXDRIVE AUTO - Used Cars Marketplace</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>GENXDRIVE AUTO | Premium Pre-Owned Vehicles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
-        
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #f59e0b;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --success: #10b981;
-            --glass: rgba(255, 255, 255, 0.95);
-        }
-
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
+        h1, h2, h3, .brand-font {
+            font-family: 'Space Grotesk', sans-serif;
         }
-
-        /* Animated Background */
-        .bg-animation {	
-			background: var(--dark);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
         }
-
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: moveGrid 20s linear infinite;
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #a3a3a3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
-        @keyframes moveGrid {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+        
+        .accent-gradient {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
         }
-
-        /* Header */
-        header {
-            background: black;
-            backdrop-filter: blur(20px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
-
-        nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--dark);
-            text-decoration: none;
-            transition: transform 0.3s;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .logo i {
-            color: var(--primary);
-            font-size: 2rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--light);
-            font-weight: 500;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .favorites-btn {
-            background: var(--primary);
-            color: white !important;
-            padding: 0.5rem 1.25rem;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .favorites-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-        }
-
-        .favorites-count {
-            background: white;
-            color: var(--primary);
-            padding: 0.1rem 0.5rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 4rem 2rem;
-            text-align: center;
-            color: white;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            text-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            animation: fadeInUp 0.8s ease;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease 0.2s backwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Search & Filter Section */
-        .filter-section {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            padding: 2rem;
-            border-radius: 24px;
-            margin: 0 auto 3rem;
-            max-width: 1200px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .filter-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .filter-group {
-            position: relative;
-        }
-
-        .filter-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 0.9rem;
-        }
-
-        .filter-group select,
-        .filter-group input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: all 0.3s;
-            background: white;
-        }
-
-        .filter-group select:focus,
-        .filter-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .search-btn {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border: none;
-            padding: 1rem 3rem;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .search-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
-        }
-
-        /* Cars Grid */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem 4rem;
-        }
-
-        .section-title {
-            color: white;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .section-title i {
-            color: var(--secondary);
-        }
-
-        .cars-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        /* Car Card */
-        .car-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        
+        .card-hover {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255,255,255,0.3);
-            position: relative;
         }
-
-        .car-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(249, 115, 22, 0.3);
         }
-
-        .car-image-container {
-            position: relative;
-            height: 240px;
-            overflow: hidden;
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        .car-image {
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .grid-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        
+        .noise::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
         }
-
-        .car-card:hover .car-image {
-            transform: scale(1.1);
+        
+        .car-card:hover .car-overlay {
+            opacity: 1;
         }
-
-        .car-badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: var(--success);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            z-index: 2;
+        
+        .car-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-
-        .car-badge.sold {
-            background: #ef4444;
-        }
-
-        .favorite-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: var(--gray);
-            transition: all 0.3s;
-            z-index: 2;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .favorite-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .favorite-btn.active {
-            color: #ef4444;
-            animation: heartBeat 0.3s;
-        }
-
-        @keyframes heartBeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        .car-details {
-            padding: 1.5rem;
-        }
-
-        .car-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 1rem;
-        }
-
-        .car-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 0.25rem;
-        }
-
-        .car-subtitle {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        .car-price {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .car-specs {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            padding: 1rem 0;
-            border-top: 1px solid #e2e8f0;
-            border-bottom: 1px solid #e2e8f0;
-            margin: 1rem 0;
-        }
-
-        .spec-item {
-            text-align: center;
-        }
-
-        .spec-item i {
-            color: var(--primary);
-            font-size: 1.2rem;
-            margin-bottom: 0.25rem;
-            display: block;
-        }
-
-        .spec-item span {
-            font-size: 0.85rem;
-            color: var(--gray);
-            font-weight: 500;
-        }
-
-        .car-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 0.875rem;
-            border-radius: 12px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            text-decoration: none;
-        }
-
-        .btn-whatsapp {
-            background: #25d366;
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
             color: white;
         }
-
-        .btn-whatsapp:hover {
-            background: #128c7e;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 50;
+            animation: pulse 2s infinite;
         }
-
-        .btn-details {
-            background: #f1f5f9;
-            color: var(--dark);
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
-
-        .btn-details:hover {
-            background: #e2e8f0;
-        }
-
-        /* Modal */
+        
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            opacity: 0;
-            transition: opacity 0.3s;
+            z-index: 100;
+            backdrop-filter: blur(8px);
         }
-
+        
         .modal.active {
             display: flex;
-            opacity: 1;
+            align-items: center;
+            justify-content: center;
         }
-
-        .modal-content {
-            background: white;
-            border-radius: 24px;
-            max-width: 900px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            animation: modalSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        .payment-form {
+            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
         }
-
-        @keyframes modalSlide {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: white;
-            border: none;
+        
+        .loading-spinner {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top: 3px solid #f97316;
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s;
+            animation: spin 1s linear infinite;
         }
-
-        .modal-close:hover {
-            transform: rotate(90deg);
-            background: #fee2e2;
-            color: #ef4444;
-        }
-
-        .modal-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-        }
-
-        .modal-body {
-            padding: 2rem;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 2rem;
-        }
-
-        .modal-title {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--dark);
-        }
-
-        .modal-price {
-            font-size: 2rem;
-            color: var(--primary);
-            font-weight: 800;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 12px;
-        }
-
-        .feature-item i {
-            color: var(--success);
-            font-size: 1.2rem;
-        }
-
-        .seller-info {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            padding: 1.5rem;
-            border-radius: 16px;
-            margin-top: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .seller-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .seller-details h4 {
-            color: var(--dark);
-            margin-bottom: 0.25rem;
-        }
-
-        .seller-details p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* Favorites Sidebar */
-        .favorites-sidebar {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100%;
-            background: white;
-            z-index: 3000;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .favorites-sidebar.active {
-            right: 0;
-        }
-
-        .favorites-header {
-            padding: 2rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-        }
-
-        .favorites-header h2 {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .close-favorites {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-
-        .close-favorites:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(90deg);
-        }
-
-        .favorites-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-        }
-
-        .favorite-item {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 16px;
-            margin-bottom: 1rem;
-            transition: all 0.3s;
-        }
-
-        .favorite-item:hover {
-            transform: translateX(-5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .favorite-item img {
-            width: 100px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 12px;
-        }
-
-        .favorite-info {
-            flex: 1;
-        }
-
-        .favorite-info h4 {
-            color: var(--dark);
-            margin-bottom: 0.25rem;
-            font-size: 1rem;
-        }
-
-        .favorite-info p {
-            color: var(--primary);
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .remove-favorite {
-            background: #fee2e2;
-            color: #ef4444;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-        }
-
-        .remove-favorite:hover {
-            background: #fecaca;
-        }
-
-        .favorites-empty {
-            text-align: center;
-            padding: 3rem;
-            color: var(--gray);
-        }
-
-        .favorites-empty i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2500;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-
-        .overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: white;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transform: translateX(400px);
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 4000;
-            border-left: 4px solid var(--success);
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .toast i {
-            color: var(--success);
-            font-size: 1.5rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .cars-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .favorites-sidebar {
-                width: 100%;
-                right: -100%;
-            }
-            
-            .filter-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-links {
-                gap: 1rem;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-
+        
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
-        /* No Results */
-        .no-results {
-            text-align: center;
-            padding: 4rem;
-            color: white;
-            grid-column: 1 / -1;
+        
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #25d366;
+            stroke-miterlimit: 10;
+            box-shadow: inset 0px 0px 0px #25d366;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
         }
-
-        .no-results i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
+        
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #25d366;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
         }
-
-        .no-results h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+        
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+        
+        @keyframes stroke {
+            100% { stroke-dashoffset: 0; }
         }
     </style>
 </head>
-<body>
-    <div class="bg-animation"></div>
+<body class="bg-neutral-950 text-white overflow-x-hidden">
 
-    <!-- Header -->
-    <header>
-        <nav>
-            <a href="#" class="logo">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-neutral-950/80 backdrop-blur-md border-b border-white/10 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="brand-font text-2xl font-bold tracking-tighter flex items-center gap-2">
+			<a href="index.html" class="logo">
              <img src="./images/carLogo3.jpg" width='100px' height="100px" alt="Image Found">   
             </a>
-            <div class="nav-links">
-                <a href="#inventory">Inventory</a>
-                <a href="#about">About</a>
-                <a href="contactGoogleForm.html">Contact</a>
-                <button class="favorites-btn" onclick="toggleFavorites()">
-                    <i class="fas fa-heart"></i>
-                    Favorites
-                    <span class="favorites-count" id="favCount">0</span>
+                GENXDRIVE
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-neutral-400">
+				 <a href="index.html" class="text-white">Home</a>
+                <a href="inventory.html" class="hover:text-white transition-colors">Inventory</a>
+                <a href="About.html" class="hover:text-white transition-colors">About</a>
+                <a href="contactGoogleForm.html" class="hover:text-white transition-colors">Feedback Form</a>
+				<a href="#" class="hover:text-white transition-colors">Contact us <br>At +9004044765/7002150200</a>
+            </div>
+            <button class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            
+            <div class="flex items-center gap-4">
+                <button onclick="openWhatsApp()" class="hidden md:flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white rounded-full text-sm font-medium hover:bg-[#128C7E] transition-all">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                    Chat Now
+                </button>
+                <button class="md:hidden text-white" onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
                 </button>
             </div>
-        </nav>
-    </header>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-neutral-900 border-t border-white/10">
+            <div class="px-6 py-4 space-y-3">
+				<<a href="index.html" class="text-white">Home</a>
+                <a href="inventory.html" class="hover:text-white transition-colors">Inventory</a>
+                <a href="About.html" class="hover:text-white transition-colors">About</a>
+                <a href="contactGoogleForm.html" class="hover:text-white transition-colors">Feedback Form</a>
+				<a href="#" class="hover:text-white transition-colors">Contact us <br>At +9004044765/7002150200</a>
+                <button onclick="openWhatsApp()" class="w-full mt-4 flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366] text-white rounded-lg font-medium">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                    Chat on WhatsApp
+                </button>
+            </div>
+        </div>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <h1>Find Your Dream Car</h1>
-        <p>GENXDRIVE AUTO used cars with verified history and instant WhatsApp support</p>
-    </section>
-
-    <!-- Filter Section -->
-    <section class="filter-section">
-        <div class="filter-grid">
-            <div class="filter-group">
-                <label>Brand</label>
-                <select id="brandFilter">
-                    <option value="">All Brands</option>
-                    <option value="bmw">BMW</option>
-                    <option value="mercedes">Mercedes-Benz</option>
-                    <option value="audi">Audi</option>
-                    <option value="toyota">Toyota</option>
-                    <option value="honda">Honda</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Price Range</label>
-                <select id="priceFilter">
-                    <option value="">Any Price</option>
-                    <option value="0-20000">Under $20,000</option>
-                    <option value="20000-40000">$20,000 - $40,000</option>
-                    <option value="40000-60000">$40,000 - $60,000</option>
-                    <option value="60000+">Above $60,000</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Year</label>
-                <select id="yearFilter">
-                    <option value="">Any Year</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
-                    <option value="2021">2021</option>
-                    <option value="2020">2020</option>
-                    <option value="2019">2019</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Body Type</label>
-                <select id="typeFilter">
-                    <option value="">All Types</option>
-                    <option value="sedan">Sedan</option>
-                    <option value="suv">SUV</option>
-                    <option value="coupe">Coupe</option>
-                    <option value="truck">Truck</option>
-                </select>
-            </div>
-        </div>
-        <button class="search-btn" onclick="filterCars()">
-            <i class="fas fa-search"></i>
-            Search Cars
-        </button>
-    </section>
-
-    <!-- Cars Grid -->
-    <div class="container">
-        <h2 class="section-title">
-            <i class="fas fa-fire"></i>
-            Featured Vehicles
-        </h2>
-        <div class="cars-grid" id="carsGrid">
-            <!-- Cars will be inserted here by JavaScript -->
-        </div>
-    </div>
-
-    <!-- Car Details Modal -->
-    <div class="modal" id="carModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">
-                <i class="fas fa-times"></i>
-            </button>
-            <img class="modal-image" id="modalImage" src="" alt="">
-            <div class="modal-body">
-                <div class="modal-header">
-                    <div>
-                        <h2 class="modal-title" id="modalTitle"></h2>
-                        <p id="modalSubtitle" style="color: var(--gray); margin-top: 0.5rem;"></p>
-                    </div>
-                    <div class="modal-price" id="modalPrice"></div>
+    <section class="relative min-h-screen flex items-center hero-gradient grid-pattern noise pt-20">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-950/50 to-neutral-950"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 py-20 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-sm font-medium reveal">
+                    <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                    150-Point Certified Vehicles
                 </div>
                 
-                <div class="features-grid" id="modalFeatures"></div>
+                <h1 class="text-5xl md:text-7xl font-bold leading-tight reveal" style="transition-delay: 100ms;">
+                    Find Your <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600">Perfect Drive</span><br/>
+                    Today
+                </h1>
                 
-                <div class="seller-info">
-                    <div class="seller-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="seller-details">
-                        <h4>Contact Seller</h4>
-                        <p>Available on WhatsApp for instant response</p>
-                    </div>
-                    <button class="btn btn-whatsapp" id="modalWhatsApp" style="margin-left: auto;">
-                        <i class="fab fa-whatsapp"></i>
-                        Message Now
+                <p class="text-lg text-neutral-400 max-w-lg leading-relaxed reveal" style="transition-delay: 200ms;">
+                    Premium pre-owned vehicles with transparent history, 7-day returns, and 15-year warranty. Browse our curated collection of luxury and performance cars.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 reveal" style="transition-delay: 300ms;">
+                    <a href="#inventory" class="px-8 py-4 accent-gradient rounded-full font-semibold text-center hover:shadow-lg hover:shadow-orange-500/25 transition-all transform hover:scale-105">
+                        Browse Inventory
+                    </a>
+                    <button onclick="openWhatsApp()" class="px-8 py-4 border border-[#25D366] text-[#25D366] rounded-full font-semibold hover:bg-[#25D366] hover:text-white transition-all flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                        Get Instant Quote
                     </button>
                 </div>
+
+                <div class="grid grid-cols-3 gap-8 pt-8 border-t border-white/10 reveal" style="transition-delay: 400ms;">
+                    <div>
+                        <div class="text-3xl font-bold text-white">2,500+</div>
+                        <div class="text-sm text-neutral-500 mt-1">Cars Sold</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-white">$50M+</div>
+                        <div class="text-sm text-neutral-500 mt-1">Financed</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-white">4.9★</div>
+                        <div class="text-sm text-neutral-500 mt-1">Google Rating</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative reveal" style="transition-delay: 500ms;">
+                <div class="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-purple-500/20 rounded-3xl blur-3xl"></div>
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80" 
+                         alt="Luxury Car" 
+                         class="w-full h-[600px] object-cover">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-neutral-950 to-transparent p-8">
+                        <div class="bg-neutral-900/90 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <h3 class="text-xl font-bold">2023 BMW M4 Competition</h3>
+                                    <p class="text-neutral-400 text-sm">Only 12,000 miles • 1 Owner</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-orange-500">$78,500</div>
+                                    <div class="text-xs text-neutral-500">or $1,200/mo</div>
+                                </div>
+                            </div>
+                            <button onclick="openPaymentModal('2023 BMW M4 Competition', 78500)" class="w-full py-3 accent-gradient rounded-lg font-semibold hover:shadow-lg hover:shadow-orange-500/25 transition-all">
+                                Reserve Now - $500
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Favorites Sidebar -->
-    <div class="overlay" id="overlay" onclick="toggleFavorites()"></div>
-    <div class="favorites-sidebar" id="favoritesSidebar">
-        <div class="favorites-header">
-            <h2><i class="fas fa-heart"></i> Your Favorites</h2>
-            <button class="close-favorites" onclick="toggleFavorites()">
-                <i class="fas fa-times"></i>
+    <!-- Search & Filter Section -->
+    <section class="py-12 bg-neutral-900 border-y border-white/10 sticky top-16 z-40" id="inventory">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
+                    <button onclick="filterCars('all')" class="filter-btn active px-6 py-2 rounded-full border border-white/20 text-sm font-medium whitespace-nowrap transition-all">All Vehicles</button>
+                    <button onclick="filterCars('suv')" class="filter-btn px-6 py-2 rounded-full border border-white/20 text-sm font-medium whitespace-nowrap transition-all hover:border-orange-500">SUVs</button>
+                    <button onclick="filterCars('sedan')" class="filter-btn px-6 py-2 rounded-full border border-white/20 text-sm font-medium whitespace-nowrap transition-all hover:border-orange-500">Sedans</button>
+                    <button onclick="filterCars('sports')" class="filter-btn px-6 py-2 rounded-full border border-white/20 text-sm font-medium whitespace-nowrap transition-all hover:border-orange-500">Sports</button>
+                    <button onclick="filterCars('electric')" class="filter-btn px-6 py-2 rounded-full border border-white/20 text-sm font-medium whitespace-nowrap transition-all hover:border-orange-500">Electric</button>
+                </div>
+                
+                <div class="flex gap-4 w-full md:w-auto">
+                    <div class="relative flex-1 md:w-64">
+                        <input type="text" id="searchInput" placeholder="Search make, model..." 
+                               class="w-full px-4 py-2 bg-neutral-800 border border-white/10 rounded-lg focus:outline-none focus:border-orange-500 text-white placeholder-neutral-500"
+                               onkeyup="searchCars()">
+                        <svg class="absolute right-3 top-2.5 w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <select id="sortSelect" onchange="sortCars()" class="px-4 py-2 bg-neutral-800 border border-white/10 rounded-lg focus:outline-none focus:border-orange-500 text-white">
+                        <option value="newest">Newest First</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="mileage">Lowest Mileage</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inventory Grid -->
+    <section class="py-20 bg-neutral-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12 reveal">
+                <div>
+                    <h2 class="text-4xl font-bold mb-2">Featured Inventory</h2>
+                    <p class="text-neutral-400">Hand-selected premium vehicles ready for immediate delivery</p>
+                </div>
+                <div class="text-sm text-neutral-500">Showing <span id="carCount">8</span> vehicles</div>
+            </div>
+
+            <div id="carGrid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Cars will be populated by JavaScript -->
+            </div>
+
+            <div class="mt-16 text-center reveal">
+                <button onclick="loadMoreCars()" class="px-8 py-4 border border-white/20 rounded-full font-semibold hover:bg-white/5 transition-all inline-flex items-center gap-2">
+                    Load More Vehicles
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-32 bg-neutral-900/50" id="services">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Why Choose GENXDRIVE</h2>
+                <p class="text-neutral-400 text-lg">Experience the future of car buying with our comprehensive service suite</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group p-8 rounded-2xl bg-neutral-900 border border-white/5 card-hover reveal">
+                    <div class="w-14 h-14 rounded-xl bg-orange-500/10 flex items-center justify-center mb-6 group-hover:bg-orange-500/20 transition-colors">
+                        <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Certified Inspection</h3>
+                    <p class="text-neutral-400 text-sm leading-relaxed mb-4">Every vehicle undergoes our rigorous 150-point inspection covering mechanical, cosmetic, and safety standards.</p>
+                    <ul class="text-sm text-neutral-500 space-y-2">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Frame & structural check
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Computer diagnostics
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Road test verification
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="group p-8 rounded-2xl bg-neutral-900 border border-white/5 card-hover reveal" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 rounded-xl bg-orange-500/10 flex items-center justify-center mb-6 group-hover:bg-orange-500/20 transition-colors">
+                        <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Flexible Financing</h3>
+                    <p class="text-neutral-400 text-sm leading-relaxed mb-4">Get pre-approved in minutes with rates starting at 3.99% APR. No impact on your credit score.</p>
+                    <ul class="text-sm text-neutral-500 space-y-2">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Instant pre-qualification
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Multiple lender options
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Lease & loan options
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="group p-8 rounded-2xl bg-neutral-900 border border-white/5 card-hover reveal" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 rounded-xl bg-orange-500/10 flex items-center justify-center mb-6 group-hover:bg-orange-500/20 transition-colors">
+                        <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">15-Year Warranty</h3>
+                    <p class="text-neutral-400 text-sm leading-relaxed mb-4">Industry-leading coverage including powertrain, electronics, and hybrid battery protection.</p>
+                    <ul class="text-sm text-neutral-500 space-y-2">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Nationwide coverage
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            $0 deductible repairs
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            24/7 roadside assistance
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Financing Calculator -->
+    <section class="py-20 bg-neutral-950 border-y border-white/10">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="bg-neutral-900 rounded-3xl p-8 md:p-12 border border-white/10 reveal">
+                <h2 class="text-3xl font-bold mb-8 text-center">Payment Calculator</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-neutral-400 mb-2">Vehicle Price</label>
+                            <input type="range" id="priceRange" min="10000" max="150000" value="50000" 
+                                   class="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                                   oninput="updateCalculator()">
+                            <div class="flex justify-between mt-2 text-sm">
+                                <span class="text-neutral-500">$10k</span>
+                                <span class="text-2xl font-bold text-orange-500" id="priceDisplay">$50,000</span>
+                                <span class="text-neutral-500">$150k</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-neutral-400 mb-2">Down Payment</label>
+                            <input type="range" id="downPaymentRange" min="0" max="50000" value="10000" 
+                                   class="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                                   oninput="updateCalculator()">
+                            <div class="text-center mt-2 text-xl font-bold" id="downPaymentDisplay">$10,000</div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-neutral-400 mb-2">Credit Score</label>
+                            <select id="creditScore" onchange="updateCalculator()" class="w-full px-4 py-3 bg-neutral-800 border border-white/10 rounded-lg focus:outline-none focus:border-orange-500">
+                                <option value="2.9">Excellent (750+)</option>
+                                <option value="3.9" selected>Good (700-749)</option>
+                                <option value="5.9">Fair (650-699)</option>
+                                <option value="8.9">Building (600-649)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col justify-center items-center bg-neutral-800/50 rounded-2xl p-8">
+                        <div class="text-sm text-neutral-400 mb-2">Estimated Monthly Payment</div>
+                        <div class="text-5xl font-bold text-white mb-4" id="monthlyPayment">$785</div>
+                        <div class="text-sm text-neutral-500 text-center mb-6">Based on 60-month term. Taxes and fees not included.</div>
+                        <button onclick="openWhatsApp('I calculated a payment of ' + document.getElementById('monthlyPayment').textContent + '. Can we discuss financing options?')" 
+                                class="w-full py-3 accent-gradient rounded-lg font-semibold hover:shadow-lg transition-all">
+                            Get Pre-Approved
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-32 bg-neutral-900/30">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold mb-4">Customer Stories</h2>
+                <p class="text-neutral-400">Real experiences from real drivers</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-neutral-900 p-8 rounded-2xl border border-white/5 reveal">
+                    <div class="flex items-center gap-1 mb-4">
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <p class="text-neutral-300 mb-6">"The WhatsApp integration made everything so easy. I reserved my Tesla Model 3 at 11 PM and picked it up the next morning. Seamless experience!"</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" class="w-12 h-12 rounded-full object-cover" alt="Customer">
+                        <div>
+                            <div class="font-semibold">James Rodriguez</div>
+                            <div class="text-sm text-neutral-500">Tesla Model 3 Owner</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-neutral-900 p-8 rounded-2xl border border-white/5 reveal" style="transition-delay: 100ms;">
+                    <div class="flex items-center gap-1 mb-4">
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <p class="text-neutral-300 mb-6">"Reserved my Porsche 911 with a $500 deposit through their secure payment system. The car was exactly as described, and the warranty gives me peace of mind."</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" class="w-12 h-12 rounded-full object-cover" alt="Customer">
+                        <div>
+                            <div class="font-semibold">Alexandra Chen</div>
+                            <div class="text-sm text-neutral-500">Porsche 911 Owner</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-neutral-900 p-8 rounded-2xl border border-white/5 reveal" style="transition-delay: 200ms;">
+                    <div class="flex items-center gap-1 mb-4">
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <p class="text-neutral-300 mb-6">"Best car buying experience ever. The online payment was secure, and they delivered the Range Rover to my doorstep. The 15-year warranty is unbeatable."</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" class="w-12 h-12 rounded-full object-cover" alt="Customer">
+                        <div>
+                            <div class="font-semibold">Michael Thompson</div>
+                            <div class="text-sm text-neutral-500">Range Rover Sport Owner</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Floating Button -->
+    <button onclick="openWhatsApp()" class="whatsapp-float w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+    </button>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="payment-form w-full max-w-md mx-4 rounded-2xl p-8 border border-white/10 relative">
+            <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
             </button>
-        </div>
-        <div class="favorites-list" id="favoritesList">
-            <div class="favorites-empty">
-                <i class="fas fa-heart-broken"></i>
-                <h3>No favorites yet</h3>
-                <p>Start adding cars you love!</p>
+            
+            <div id="paymentStep1">
+                <h3 class="text-2xl font-bold mb-2">Reserve Your Vehicle</h3>
+                <p class="text-neutral-400 mb-6">Secure this car with a $500 fully refundable deposit</p>
+                
+                <div class="bg-neutral-800/50 rounded-xl p-4 mb-6 flex items-center gap-4">
+                    <div class="w-16 h-16 bg-neutral-700 rounded-lg flex items-center justify-center text-2xl">🚗</div>
+                    <div>
+                        <div class="font-semibold" id="modalCarName">2023 BMW M4</div>
+                        <div class="text-orange-500 font-bold" id="modalCarPrice">$78,500</div>
+                    </div>
+                </div>
+                
+                <form id="paymentForm" onsubmit="processPayment(event)">
+                    <div class="space-y-4 mb-6">
+                        <input type="text" id="customerName" placeholder="Full Name" required
+                               class="w-full px-4 py-3 bg-neutral-800 border border-white/10 rounded-lg focus:outline-none focus:border-orange-500 text-white placeholder-neutral-500">
+                        <input type="email" id="customerEmail" placeholder="Email Address" required
+                               class="w-full px-4 py-3 bg-neutral-800 border border-white/10 rounded-lg focus:outline-none focus:border-orange-500 text-white placeholder-neutral-500">
+                        <input type="tel" id="customerPhone" placeholder="Phone Number" required
+                               class="w-full px-4 py-3 bg-neutral-800 border border-white/10 rounded-lg focus:outline-none focus:border-orange-500 text-white placeholder-neutral-500">
+                    </div>
+                    
+                    <div id="card-element" class="p-4 bg-neutral-800 border border-white/10 rounded-lg mb-6">
+                        <!-- Stripe Card Element will be inserted here -->
+                    </div>
+                    <div id="card-errors" class="text-red-500 text-sm mb-4"></div>
+                    
+                    <button type="submit" id="submitPayment" class="w-full py-4 accent-gradient rounded-lg font-bold text-lg hover:shadow-lg hover:shadow-orange-500/30 transition-all flex items-center justify-center gap-2">
+                        <span>Pay $500 Deposit</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </button>
+                    
+                    <div class="mt-4 flex items-center justify-center gap-2 text-sm text-neutral-500">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                        Secure SSL Encrypted Payment
+                    </div>
+                </form>
+            </div>
+            
+            <div id="paymentStep2" class="hidden text-center py-8">
+                <div class="loading-spinner mx-auto mb-4"></div>
+                <h3 class="text-xl font-bold mb-2">Processing Payment...</h3>
+                <p class="text-neutral-400">Please do not close this window</p>
+            </div>
+            
+            <div id="paymentStep3" class="hidden text-center py-8">
+                <svg class="success-checkmark mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+                <h3 class="text-2xl font-bold mb-2 text-green-500">Payment Successful!</h3>
+                <p class="text-neutral-400 mb-6">Your $500 deposit has been received. Check your email for confirmation.</p>
+                <button onclick="closePaymentModal()" class="px-8 py-3 bg-neutral-800 rounded-lg font-semibold hover:bg-neutral-700 transition-all">
+                    Close
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMessage">Added to favorites!</span>
-    </div>
+    <!-- Footer -->
+    <footer class="bg-neutral-950 border-t border-white/10 pt-20 pb-10" id="contact">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2">
+                    <div class="brand-font text-3xl font-bold mb-6 flex items-center gap-2">
+                        <div class="w-10 h-10 accent-gradient rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        GENXDRIVE
+                    </div>
+                    <p class="text-neutral-400 max-w-sm mb-6">Revolutionizing the pre-owned automotive market through transparency, technology, and uncompromising quality standards.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-orange-500/20 hover:text-orange-500 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-orange-500/20 hover:text-orange-500 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="#" onclick="openWhatsApp()" class="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4 text-white">Quick Links</h4>
+                    <ul class="space-y-3 text-neutral-400">
+                        <li><a href="#inventory" class="hover:text-orange-500 transition-colors">Inventory</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors">Financing</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors">Sell Your Car</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition-colors">Service Center</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4 text-white">Contact</h4>
+                    <ul class="space-y-3 text-neutral-400">
+                        <li>1234 Velocity Drive</li>
+                        <li>Los Angeles, CA 90001</li>
+                        <li class="pt-2">
+                            <button onclick="openWhatsApp()" class="text-[#25D366] hover:underline flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                                Chat on WhatsApp
+                            </button>
+                        </li>
+                        <li>drive@genxdrive.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-500">
+                <p>&copy; 2024 GENXDRIVE AUTO. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Car Data
-        const carsData = [
+        // Car Inventory Data
+        const cars = [
             {
                 id: 1,
-                brand: 'bmw',
-                model: 'M4 Competition',
+                make: "BMW",
+                model: "M4 Competition",
                 year: 2023,
                 price: 78500,
-                mileage: 12500,
-                type: 'coupe',
-                fuel: 'Petrol',
-                transmission: 'Automatic',
-                image: 'https://imgd.aeplcdn.com/1920x1080/n/cw/ec/176129/m4-competition-exterior-right-front-three-quarter-3.jpeg?isig=0&q=40',
-                features: ['M Sport Package', 'Carbon Fiber Roof', 'Harman Kardon Sound', 'Heads-Up Display'],
-                description: 'Immaculate condition M4 Competition with full service history.'
+                mileage: 12000,
+                type: "sports",
+                image: "https://images.unsplash.com/photo-1555215695-3004980adade?auto=format&fit=crop&w=600&q=80",
+                tag: "Just Arrived",
+                featured: true
             },
             {
                 id: 2,
-                brand: 'mercedes',
-                model: 'E-Class AMG',
-                year: 2022,
-                price: 62000,
-                mileage: 18000,
-                type: 'sedan',
-                fuel: 'Petrol',
-                transmission: 'Automatic',
-                image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',
-                features: ['AMG Line', 'Burmester Sound', 'Panoramic Roof', '360 Camera'],
-                description: 'Luxury sedan with AMG styling and GENXDRIVE AUTO features.'
+                make: "Tesla",
+                model: "Model 3 Performance",
+                year: 2023,
+                price: 52900,
+                mileage: 8500,
+                type: "electric",
+                image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=600&q=80",
+                tag: "Best Seller",
+                featured: false
             },
             {
                 id: 3,
-                brand: 'audi',
-                model: 'RS6 Avant',
-                year: 2023,
-                price: 115000,
-                mileage: 8000,
-                type: 'wagon',
-                fuel: 'Petrol',
-                transmission: 'Automatic',
-                image: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=800&q=80',
-                features: ['RS Design Package', 'Carbon Ceramics', 'B&O Sound', 'Dynamic Steering'],
-                description: 'The ultimate performance wagon in pristine condition.'
+                make: "Porsche",
+                model: "911 Carrera",
+                year: 2022,
+                price: 125000,
+                mileage: 15000,
+                type: "sports",
+                image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80",
+                tag: "Rare Find",
+                featured: false
             },
             {
                 id: 4,
-                brand: 'toyota',
-                model: 'Land Cruiser',
-                year: 2021,
-                price: 55000,
-                mileage: 35000,
-                type: 'suv',
-                fuel: 'Diesel',
-                transmission: 'Automatic',
-                image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80',
-                features: ['Off-road Package', '7 Seats', 'Tow Hitch', 'Roof Rails'],
-                description: 'Reliable SUV perfect for family adventures.'
+                make: "Range Rover",
+                model: "Sport HSE",
+                year: 2023,
+                price: 89500,
+                mileage: 18000,
+                type: "suv",
+                image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=600&q=80",
+                tag: "Certified",
+                featured: false
             },
             {
                 id: 5,
-                brand: 'honda',
-                model: 'Civic Type R',
-                year: 2023,
-                price: 42000,
-                mileage: 5000,
-                type: 'hatchback',
-                fuel: 'Petrol',
-                transmission: 'Manual',
-                image: 'https://cdni.autocarindia.com/ExtraImages/20220721120535_Civic_Type_R.jpg?w=728&q=75',
-                features: ['R Performance', 'Brembo Brakes', 'Data Logger', 'Carbon Wing'],
-                description: 'Track-focused hot hatch with low mileage.'
+                make: "Mercedes-Benz",
+                model: "S-Class 580",
+                year: 2022,
+                price: 98000,
+                mileage: 22000,
+                type: "sedan",
+                image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=600&q=80",
+                tag: "Luxury",
+                featured: false
             },
             {
                 id: 6,
-                brand: 'bmw',
-                model: 'X5 M50i',
+                make: "Audi",
+                model: "e-tron GT",
+                year: 2023,
+                price: 87500,
+                mileage: 6000,
+                type: "electric",
+                image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80",
+                tag: "Electric",
+                featured: false
+            },
+            {
+                id: 7,
+                make: "Lexus",
+                model: "RX 350 F Sport",
+                year: 2023,
+                price: 58900,
+                mileage: 14000,
+                type: "suv",
+                image: "https://images.unsplash.com/photo-1621007947382-bb3c3968e3bb?auto=format&fit=crop&w=600&q=80",
+                tag: "Reliable",
+                featured: false
+            },
+            {
+                id: 8,
+                make: "BMW",
+                model: "X5 M50i",
                 year: 2022,
-                price: 68000,
-                mileage: 22000,
-                type: 'suv',
-                fuel: 'Petrol',
-                transmission: 'Automatic',
-                image: 'https://hips.hearstapps.com/hmg-prod/images/2020-bmw-x5-m50i-103-1581424077.jpg?crop=0.646xw:0.648xh;0.244xw,0.256xh&resize=1400:*',
-                features: ['M Sport Exhaust', 'Air Suspension', 'Soft Close Doors', 'Laser Lights'],
-                description: 'Powerful SUV with luxury amenities.'
+                price: 72900,
+                mileage: 28000,
+                type: "suv",
+                image: "https://images.unsplash.com/photo-1556189250-72ba954e6793?auto=format&fit=crop&w=600&q=80",
+                tag: "Value",
+                featured: false
             }
         ];
 
-        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        let currentCars = [...carsData];
+        let currentFilter = 'all';
+        let stripe;
+        let cardElement;
 
         // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            renderCars(carsData);
-            updateFavoritesCount();
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCars(cars);
+            initStripe();
+            initScrollAnimations();
+            updateCalculator();
         });
 
         // Render Cars
-        function renderCars(cars) {
-            const grid = document.getElementById('carsGrid');
-            
-            if (cars.length === 0) {
-                grid.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <h3>No cars found</h3>
-                        <p>Try adjusting your filters</p>
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = cars.map(car => `
-                <div class="car-card" data-id="${car.id}">
-                    <div class="car-image-container">
-                        <img src="${car.image}" alt="${car.brand} ${car.model}" class="car-image">
-                        <span class="car-badge">Available</span>
-                        <button class="favorite-btn ${favorites.includes(car.id) ? 'active' : ''}" 
-                                onclick="toggleFavorite(${car.id}, event)">
-                            <i class="${favorites.includes(car.id) ? 'fas' : 'far'} fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="car-details">
-                        <div class="car-header">
-                            <div>
-                                <div class="car-title">${car.brand.toUpperCase()} ${car.model}</div>
-                                <div class="car-subtitle">${car.year} • ${car.mileage.toLocaleString()} miles</div>
-                            </div>
-                            <div class="car-price">$${car.price.toLocaleString()}</div>
+        function renderCars(carList) {
+            const grid = document.getElementById('carGrid');
+            grid.innerHTML = carList.map(car => `
+                <div class="car-card group bg-neutral-900 rounded-2xl overflow-hidden border border-white/5 card-hover reveal">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${car.image}" alt="${car.make} ${car.model}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-orange-500 text-white text-xs font-bold rounded-full">${car.tag}</span>
                         </div>
-                        <div class="car-specs">
-                            <div class="spec-item">
-                                <i class="fas fa-gas-pump"></i>
-                                <span>${car.fuel}</span>
-                            </div>
-                            <div class="spec-item">
-                                <i class="fas fa-cog"></i>
-                                <span>${car.transmission}</span>
-                            </div>
-                            <div class="spec-item">
-                                <i class="fas fa-car-side"></i>
-                                <span>${car.type}</span>
-                            </div>
-                        </div>
-                        <div class="car-actions">
-                            <button class="btn btn-whatsapp" onclick="contactWhatsApp(${car.id})">
-                                <i class="fab fa-whatsapp"></i>
-                                WhatsApp
+                        <div class="car-overlay absolute inset-0 bg-neutral-950/80 flex items-center justify-center gap-3">
+                            <button onclick="openPaymentModal('${car.year} ${car.make} ${car.model}', ${car.price})" class="px-4 py-2 accent-gradient rounded-lg font-semibold text-sm hover:shadow-lg transition-all">
+                                Reserve $500
                             </button>
-                            <button class="btn btn-details" onclick="openModal(${car.id})">
-                                <i class="fas fa-info-circle"></i>
+                            <button onclick="openWhatsApp('Hi, I am interested in the ${car.year} ${car.make} ${car.model} priced at $${car.price.toLocaleString()}')" class="px-4 py-2 bg-[#25D366] rounded-lg font-semibold text-sm hover:bg-[#128C7E] transition-all flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                                Chat
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-lg font-bold">${car.make} ${car.model}</h3>
+                                <p class="text-neutral-400 text-sm">${car.year} • ${car.mileage.toLocaleString()} miles</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <div>
+                                <div class="text-2xl font-bold text-orange-500">$${car.price.toLocaleString()}</div>
+                                <div class="text-xs text-neutral-500">or $${Math.round(car.price/60).toLocaleString()}/mo</div>
+                            </div>
+                            <button onclick="viewCarDetails(${car.id})" class="text-sm text-white hover:text-orange-500 transition-colors flex items-center gap-1">
                                 Details
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
                             </button>
                         </div>
                     </div>
                 </div>
             `).join('');
+            
+            document.getElementById('carCount').textContent = carList.length;
+            
+            // Re-initialize scroll animations for new elements
+            setTimeout(initScrollAnimations, 100);
         }
 
         // Filter Cars
-        function filterCars() {
-            const brand = document.getElementById('brandFilter').value;
-            const price = document.getElementById('priceFilter').value;
-            const year = document.getElementById('yearFilter').value;
-            const type = document.getElementById('typeFilter').value;
-
-            currentCars = carsData.filter(car => {
-                let match = true;
-                
-                if (brand && car.brand !== brand) match = false;
-                if (year && car.year !== parseInt(year)) match = false;
-                if (type && car.type !== type) match = false;
-                
-                if (price) {
-                    if (price === '0-20000' && car.price >= 20000) match = false;
-                    if (price === '20000-40000' && (car.price < 20000 || car.price > 40000)) match = false;
-                    if (price === '40000-60000' && (car.price < 40000 || car.price > 60000)) match = false;
-                    if (price === '60000+' && car.price < 60000) match = false;
-                }
-
-                return match;
+        function filterCars(type) {
+            currentFilter = type;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
-
-            // Animate transition
-            const grid = document.getElementById('carsGrid');
-            grid.style.opacity = '0';
-            setTimeout(() => {
-                renderCars(currentCars);
-                grid.style.opacity = '1';
-            }, 300);
-        }
-
-        // Favorites Functions
-        function toggleFavorite(carId, event) {
-            event.stopPropagation();
-            const index = favorites.indexOf(carId);
+            event.target.classList.add('active');
             
-            if (index > -1) {
-                favorites.splice(index, 1);
-                showToast('Removed from favorites');
+            if (type === 'all') {
+                renderCars(cars);
             } else {
-                favorites.push(carId);
-                showToast('Added to favorites');
-            }
-            
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            updateFavoritesCount();
-            renderCars(currentCars);
-            renderFavoritesList();
-        }
-
-        function updateFavoritesCount() {
-            document.getElementById('favCount').textContent = favorites.length;
-        }
-
-        function toggleFavorites() {
-            const sidebar = document.getElementById('favoritesSidebar');
-            const overlay = document.getElementById('overlay');
-            
-            if (sidebar.classList.contains('active')) {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-            } else {
-                renderFavoritesList();
-                sidebar.classList.add('active');
-                overlay.classList.add('active');
+                const filtered = cars.filter(car => car.type === type);
+                renderCars(filtered);
             }
         }
 
-        function renderFavoritesList() {
-            const list = document.getElementById('favoritesList');
+        // Search Cars
+        function searchCars() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = cars.filter(car => 
+                car.make.toLowerCase().includes(query) || 
+                car.model.toLowerCase().includes(query) ||
+                car.year.toString().includes(query)
+            );
+            renderCars(filtered);
+        }
+
+        // Sort Cars
+        function sortCars() {
+            const sortType = document.getElementById('sortSelect').value;
+            let sorted = [...cars];
             
-            if (favorites.length === 0) {
-                list.innerHTML = `
-                    <div class="favorites-empty">
-                        <i class="fas fa-heart-broken"></i>
-                        <h3>No favorites yet</h3>
-                        <p>Start adding cars you love!</p>
-                    </div>
-                `;
-                return;
+            if (currentFilter !== 'all') {
+                sorted = sorted.filter(car => car.type === currentFilter);
             }
-
-            const favoriteCars = carsData.filter(car => favorites.includes(car.id));
-            list.innerHTML = favoriteCars.map(car => `
-                <div class="favorite-item">
-                    <img src="${car.image}" alt="${car.brand} ${car.model}">
-                    <div class="favorite-info">
-                        <h4>${car.brand.toUpperCase()} ${car.model}</h4>
-                        <p>$${car.price.toLocaleString()}</p>
-                        <button class="remove-favorite" onclick="toggleFavorite(${car.id}, event)">
-                            Remove
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+            
+            switch(sortType) {
+                case 'price-low':
+                    sorted.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sorted.sort((a, b) => b.price - a.price);
+                    break;
+                case 'mileage':
+                    sorted.sort((a, b) => a.mileage - b.mileage);
+                    break;
+                default:
+                    sorted.sort((a, b) => b.year - a.year);
+            }
+            
+            renderCars(sorted);
         }
 
-        // Modal Functions
-        function openModal(carId) {
-            const car = carsData.find(c => c.id === carId);
-            if (!car) return;
-
-            document.getElementById('modalImage').src = car.image;
-            document.getElementById('modalTitle').textContent = `${car.brand.toUpperCase()} ${car.model}`;
-            document.getElementById('modalSubtitle').textContent = `${car.year} • ${car.mileage.toLocaleString()} miles • ${car.description}`;
-            document.getElementById('modalPrice').textContent = `$${car.price.toLocaleString()}`;
+        // Load More Cars (Simulation)
+        function loadMoreCars() {
+            const moreCars = [
+                {
+                    id: 9,
+                    make: "Mercedes",
+                    model: "G-Wagon G63",
+                    year: 2021,
+                    price: 165000,
+                    mileage: 25000,
+                    type: "suv",
+                    image: "https://images.unsplash.com/photo-1520031441872-265e4ff70366?auto=format&fit=crop&w=600&q=80",
+                    tag: "Luxury SUV",
+                    featured: false
+                },
+                {
+                    id: 10,
+                    make: "Porsche",
+                    model: "Taycan 4S",
+                    year: 2023,
+                    price: 118000,
+                    mileage: 8000,
+                    type: "electric",
+                    image: "https://images.unsplash.com/photo-1614200179396-2bdb77ebf81b?auto=format&fit=crop&w=600&q=80",
+                    tag: "Electric",
+                    featured: false
+                },
+                {
+                    id: 11,
+                    make: "BMW",
+                    model: "7 Series",
+                    year: 2023,
+                    price: 95000,
+                    mileage: 12000,
+                    type: "sedan",
+                    image: "https://images.unsplash.com/photo-1555215695-3004980adade?auto=format&fit=crop&w=600&q=80",
+                    tag: "Executive",
+                    featured: false
+                },
+                {
+                    id: 12,
+                    make: "Audi",
+                    model: "R8 V10",
+                    year: 2020,
+                    price: 142000,
+                    mileage: 18000,
+                    type: "sports",
+                    image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=600&q=80",
+                    tag: "Supercar",
+                    featured: false
+                }
+            ];
             
-            const featuresHtml = car.features.map(feature => `
-                <div class="feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>${feature}</span>
-                </div>
-            `).join('');
-            document.getElementById('modalFeatures').innerHTML = featuresHtml;
-            
-            document.getElementById('modalWhatsApp').onclick = () => contactWhatsApp(carId);
-            
-            document.getElementById('carModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            document.getElementById('carModal').classList.remove('active');
-            document.body.style.overflow = '';
+            cars.push(...moreCars);
+            renderCars(cars);
         }
 
         // WhatsApp Integration
-        function contactWhatsApp(carId) {
-            const car = carsData.find(c => c.id === carId);
-            if (!car) return;
-
-            const phoneNumber = '917002161200'; // Replace with actual business number
-            const message = `Hi! I'm interested in the ${car.year} ${car.brand.toUpperCase()} ${car.model} listed for $${car.price.toLocaleString()}. Is it still available?`;
+        function openWhatsApp(message = '') {
+            const phoneNumber = '+919004044765'; // Replace with your business WhatsApp number
+            const defaultMessage = 'Hi, I am interested in a vehicle from GENXDRIVE AUTO.';
+            const text = encodeURIComponent(message || defaultMessage);
+            window.open(`https://wa.me/${phoneNumber}?text=${text}`, '_blank');
             
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
+            // Track WhatsApp click (optional analytics)
+            console.log('WhatsApp opened with message:', message || defaultMessage);
         }
 
-        // Toast Notification
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMessage').textContent = message;
-            toast.classList.add('show');
+        // Payment Modal Functions
+        function openPaymentModal(carName, carPrice) {
+            document.getElementById('modalCarName').textContent = carName;
+            document.getElementById('modalCarPrice').textContent = '$' + carPrice.toLocaleString();
+            document.getElementById('paymentModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
             
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            // Reset form
+            document.getElementById('paymentStep1').classList.remove('hidden');
+            document.getElementById('paymentStep2').classList.add('hidden');
+            document.getElementById('paymentStep3').classList.add('hidden');
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Stripe Integration
+        function initStripe() {
+            // Initialize Stripe with your publishable key
+            stripe = Stripe('pk_test_your_publishable_key_here'); // Replace with your actual key
+            
+            const elements = stripe.elements({
+                appearance: {
+                    theme: 'night',
+                    variables: {
+                        colorPrimary: '#f97316',
+                        colorBackground: '#262626',
+                        colorText: '#ffffff',
+                        colorDanger: '#ef4444',
+                        borderRadius: '8px',
+                    }
+                }
+            });
+            
+            cardElement = elements.create('card', {
+                style: {
+                    base: {
+                        fontSize: '16px',
+                        color: '#ffffff',
+                        '::placeholder': {
+                            color: '#737373',
+                        },
+                    },
+                },
+            });
+            
+            cardElement.mount('#card-element');
+            
+            cardElement.on('change', function(event) {
+                const displayError = document.getElementById('card-errors');
+                if (event.error) {
+                    displayError.textContent = event.error.message;
+                } else {
+                    displayError.textContent = '';
+                }
+            });
+        }
+
+        async function processPayment(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submitPayment');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="loading-spinner w-5 h-5 border-2"></div> Processing...';
+            
+            // Show processing step
+            document.getElementById('paymentStep1').classList.add('hidden');
+            document.getElementById('paymentStep2').classList.remove('hidden');
+            
+            // Simulate payment processing (replace with actual Stripe integration)
+            setTimeout(async () => {
+                try {
+                    // In production, you would create a payment intent on your server
+                    // const {token} = await stripe.createToken(cardElement);
+                    // const response = await fetch('/create-payment-intent', {...});
+                    
+                    // Simulate successful payment
+                    document.getElementById('paymentStep2').classList.add('hidden');
+                    document.getElementById('paymentStep3').classList.remove('hidden');
+                    
+                    // Send WhatsApp confirmation
+                    const carName = document.getElementById('modalCarName').textContent;
+                    const customerName = document.getElementById('customerName').value;
+                    const message = `Hi, I just reserved the ${carName} with a $500 deposit. Name: ${customerName}. Please confirm my reservation.`;
+                    
+                    // Optional: Auto-open WhatsApp after successful payment
+                    setTimeout(() => {
+                        openWhatsApp(message);
+                    }, 1500);
+                    
+                } catch (error) {
+                    console.error('Payment error:', error);
+                    document.getElementById('card-errors').textContent = 'Payment failed. Please try again.';
+                    document.getElementById('paymentStep2').classList.add('hidden');
+                    document.getElementById('paymentStep1').classList.remove('hidden');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<span>Pay $500 Deposit</span><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>';
+                }
+            }, 2000);
+        }
+
+        // Payment Calculator
+        function updateCalculator() {
+            const price = parseInt(document.getElementById('priceRange').value);
+            const downPayment = parseInt(document.getElementById('downPaymentRange').value);
+            const apr = parseFloat(document.getElementById('creditScore').value);
+            
+            document.getElementById('priceDisplay').textContent = '$' + price.toLocaleString();
+            document.getElementById('downPaymentDisplay').textContent = '$' + downPayment.toLocaleString();
+            
+            const loanAmount = price - downPayment;
+            const monthlyRate = apr / 100 / 12;
+            const numberOfPayments = 60;
+            
+            const monthlyPayment = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / 
+                                  (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+            
+            document.getElementById('monthlyPayment').textContent = '$' + Math.round(monthlyPayment).toLocaleString();
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // View Car Details (Placeholder)
+        function viewCarDetails(carId) {
+            const car = cars.find(c => c.id === carId);
+            openWhatsApp(`Hi, I would like more details about the ${car.year} ${car.make} ${car.model}. Can you send me the full specifications and CarFax report?`);
+        }
+
+        // Scroll Animations
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
         }
 
         // Close modal on outside click
-        document.getElementById('carModal').addEventListener('click', (e) => {
-            if (e.target.id === 'carModal') closeModal();
+        document.getElementById('paymentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePaymentModal();
+            }
         });
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-                if (document.getElementById('favoritesSidebar').classList.contains('active')) {
-                    toggleFavorites();
-                }
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-neutral-950/95');
+            } else {
+                navbar.classList.remove('bg-neutral-950/95');
             }
         });
     </script>
