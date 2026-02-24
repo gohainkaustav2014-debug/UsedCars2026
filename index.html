@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Motors - Used Cars Marketplace</title>
+    <title>CARMERO- Used Cars Marketplace</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
@@ -853,8 +853,7 @@
     <header>
         <nav>
             <a href="#" class="logo">
-                <i class="fas fa-car-side"></i>
-                Premium Motors
+             <img src="./images/caranga.png" width='150px' height="100px" alt="Image Found">   
             </a>
             <div class="nav-links">
                 <a href="#inventory">Inventory</a>
@@ -872,7 +871,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <h1>Find Your Dream Car</h1>
-        <p>Premium used cars with verified history and instant WhatsApp support</p>
+        <p>CARMERO used cars with verified history and instant WhatsApp support</p>
     </section>
 
     <!-- Filter Section -->
@@ -1010,7 +1009,7 @@
                 type: 'coupe',
                 fuel: 'Petrol',
                 transmission: 'Automatic',
-                image: 'https://images.unsplash.com/photo-1555215695-3004980adade?w=800&q=80',
+                image: 'https://imgd.aeplcdn.com/1920x1080/n/cw/ec/176129/m4-competition-exterior-right-front-three-quarter-3.jpeg?isig=0&q=40',
                 features: ['M Sport Package', 'Carbon Fiber Roof', 'Harman Kardon Sound', 'Heads-Up Display'],
                 description: 'Immaculate condition M4 Competition with full service history.'
             },
@@ -1026,7 +1025,7 @@
                 transmission: 'Automatic',
                 image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',
                 features: ['AMG Line', 'Burmester Sound', 'Panoramic Roof', '360 Camera'],
-                description: 'Luxury sedan with AMG styling and premium features.'
+                description: 'Luxury sedan with AMG styling and CARMERO features.'
             },
             {
                 id: 3,
@@ -1066,7 +1065,7 @@
                 type: 'hatchback',
                 fuel: 'Petrol',
                 transmission: 'Manual',
-                image: 'https://images.unsplash.com/photo-1605816988067-b4b0b5b7a63e?w=800&q=80',
+                image: 'https://cdni.autocarindia.com/ExtraImages/20220721120535_Civic_Type_R.jpg?w=728&q=75',
                 features: ['R Performance', 'Brembo Brakes', 'Data Logger', 'Carbon Wing'],
                 description: 'Track-focused hot hatch with low mileage.'
             },
@@ -1080,7 +1079,7 @@
                 type: 'suv',
                 fuel: 'Petrol',
                 transmission: 'Automatic',
-                image: 'https://images.unsplash.com/photo-1556189250-72ba954e6796?w=800&q=80',
+                image: 'https://hips.hearstapps.com/hmg-prod/images/2020-bmw-x5-m50i-103-1581424077.jpg?crop=0.646xw:0.648xh;0.244xw,0.256xh&resize=1400:*',
                 features: ['M Sport Exhaust', 'Air Suspension', 'Soft Close Doors', 'Laser Lights'],
                 description: 'Powerful SUV with luxury amenities.'
             }
@@ -1290,7 +1289,7 @@
             const car = carsData.find(c => c.id === carId);
             if (!car) return;
 
-            const phoneNumber = '919004044765'; // Replace with actual business number
+            const phoneNumber = '918587055008'; // Replace with actual business number
             const message = `Hi! I'm interested in the ${car.year} ${car.brand.toUpperCase()} ${car.model} listed for $${car.price.toLocaleString()}. Is it still available?`;
             
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
